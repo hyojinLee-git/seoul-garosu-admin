@@ -13,8 +13,8 @@ const Pagination = () => {
             {pageList.map((item)=>(
                 <button>{item}</button>
             ))}
-            <button>></button>
-            <button>>|</button>
+            <button>{">"}</button>
+            <button>{">|"}</button>
         </PaginationDiv>
     );
 };

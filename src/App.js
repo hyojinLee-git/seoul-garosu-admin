@@ -1,19 +1,16 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import GlobalNavigationBar from './components/GNB/GlobalNavigationBar';
-import Main from './components/Main/Main';
-import SideNavigationBar from './components/SNB/SideNavigationBar';
+
+import Main from './pages/Main';
+
+import Login from './pages/Login';
 function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={App} />
+        <Route path="/" element={<Main />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
-      <GlobalNavigationBar />
-      <div style={{ display: 'flex' }}>
-        <SideNavigationBar />
-        <Main />
-      </div>
     </div>
   );
 }

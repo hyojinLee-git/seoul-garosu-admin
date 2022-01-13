@@ -6,7 +6,7 @@ import DropDown from './DropDown';
 import Pagination from './Pagination';
 import {MainDiv} from './style'
 
-const Main = () => {
+const MainContents = () => {
     const [showDropDown,setShowDropDown]=useState(false)
     const onClickDropDown=()=>{
         setShowDropDown(prev=>!prev)
@@ -22,4 +22,4 @@ const Main = () => {
     );
 };
 
-export default Main;
+export default MainContents;
