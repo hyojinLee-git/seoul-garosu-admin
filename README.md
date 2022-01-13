@@ -14,3 +14,8 @@
 | `ci`        | Continuous Integrations | CI 관련 설정 수정에 대한 커밋 (example scopes: Travis, Circle, BrowserStack, SauceLabs)  |
 | `chore`     | Chores                  | 그 외 자잘한 수정에 대한 커밋 files                                                      |
 | `revert`    | Reverts                 | Reverts a previous commit                                                                |
+
+## Atomic Design
+
+Atoms->Molecules->Organisms->Templates->Pages
+![imgae](https://3xyh3sqxv063a8xzo5uk2zn1-wpengine.netdna-ssl.com/wp-content/uploads/2019/10/Screenshot-2019-10-25-at-2.33.30-PM.png)
