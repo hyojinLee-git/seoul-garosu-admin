@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import {SideMenuUl} from './style'
 import drafts from '../../assets/SNB/drafts.png'
 import check from '../../assets/SNB/check.png'

@@ -1,0 +1,65 @@
+import styled from "styled-components";
+
+export const MainDiv=styled.div`
+    width: 80vw;
+    border:3px solid blue;
+    box-sizing: border-box;
+`
+
+export const AdmissionBarDiv=styled.div`
+    display: flex;
+    margin-top: 36px;
+    border:1px solid red;
+    align-items:center;
+    padding:5px 10px;
+    box-sizing: border-box;
+    &>*:nth-child(1){flex:1}
+    &>*:nth-child(2){flex:8}
+    &>*:nth-child(3){flex:1.5}
+    
+    & button{
+        height: 24px;
+        outline: none;
+        border:none;
+        background: ${props=>props.color||"none"};
+        
+    }
+`
+export const ProcessButton=styled.button`
+    background:${props=>props.color};
+    width: 70px;
+    height: 24px;
+    border-radius: 5px;
+    /* color:white; */
+    border:none;
+    outline: none;
+    cursor: pointer;
+    margin-left:10px;
+
+
+`
+export const CheckBox=styled.input`
+    width: 24px;
+    height: 24px;
+`
+
+export const ClassificationBarDiv=styled.div`
+
+`
+export const ClassificationButton=styled.button`
+        border:none;
+    outline: none;
+    cursor: pointer;
+    background: none;
+    color:${props=>props.color||'black'};
+    width:180px;
+    height: 46px;
+    text-align: start;
+    border-bottom: 3px solid ${props=>props.color};
+`
+
+export const ApplyListUl=styled.ul`
+    margin:0;
+    padding:0;
+    list-style: none;
+`

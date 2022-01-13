@@ -1,10 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
+import AdmissionBar from './AdmissionBar';
+import ApplyList from './ApplyList';
+import ClassificationBar from './ClassificationBar';
+import DropDown from './DropDown';
+import Pagination from './Pagination';
+import {MainDiv} from './style'
 
 const Main = () => {
+    const [showDropDown,setShowDropDown]=useState(false)
+    const onClickDropDown=()=>{
+        setShowDropDown(prev=>!prev)
+    }
     return (
-        <div >
-            i'm main
-        </div>
+        <MainDiv >
+            <AdmissionBar onClickDropDown={onClickDropDown}/>
+            { showDropDown&& <DropDown/>}
+            <ClassificationBar/>
+            <ApplyList/>
+            <Pagination/>
+        </MainDiv>
     );
 };
 
