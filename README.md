@@ -5,7 +5,7 @@
 | Commit Type | Title                   | Description                                                                              |
 | ----------- | ----------------------- | ---------------------------------------------------------------------------------------- |
 | `feat`      | Features                | 새로운 기능에 대한 커밋                                                                  |
-| `fix`       | Bug Fixes               | build 빌드 관련 파일 수정에 대한 커밋                                                    |
+| `fix`       | Bug Fixes               | 버그 수정에 대한 커밋                                                                    |
 | `docs`      | Documentation           | 문서 수정에 대한 커밋                                                                    |
 | `style`     | Styles                  | 코드 스타일 혹은 포맷 등에 관한 커밋 (white-space, formatting, missing semi-colons, etc) |
 | `refactor`  | Code Refactoring        | 코드 리팩토링에 대한 커밋                                                                |
