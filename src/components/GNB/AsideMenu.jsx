@@ -1,5 +1,5 @@
 import React from 'react';
-import person from '../../assets/person.png'
+import person from '../../assets/GNB/person.png'
 import {AsideDiv} from './style'
 
 const AsideMenu = () => {
