@@ -1,5 +1,5 @@
 import React from 'react';
-import {ApplyListUl} from './style'
+import {ApplyListUl,CheckBox} from './style'
 
 const ApplyList = () => {
     const applyList=[
@@ -37,16 +37,23 @@ const ApplyList = () => {
         
     ]
     return (
-        <ApplyListUl>
-            {
-                applyList.map(applyItem=>(
-                    <li>
-                        <input type="checkbox"/>
-                        
-                    </li>
-                ))
-            }
-        </ApplyListUl>
+
+            <ApplyListUl>
+                {
+                    applyList.map(applyItem=>(
+                       <li key={applyItem.treeLocation}>
+                           <CheckBox type="checkbox"/>
+                           <span>icon</span>
+                           <span>{applyItem.name}</span>
+                           <span>{applyItem.location}</span>
+                           <span>{applyItem.treeLocation}</span>
+                           <span>{applyItem.treeType}</span>
+                           <span>{applyItem.date}</span>
+                       </li>
+                    ))
+                }
+            </ApplyListUl>
+
     );
 };
 
