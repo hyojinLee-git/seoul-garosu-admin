@@ -1,6 +1,8 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import GlobalNavigationBar from './components/GNB/GlobalNavigationBar';
+import Main from './components/Main/Main';
+import SideNavigationBar from './components/SNB/SideNavigationBar';
 function App() {
   return (
     <div className="App">
@@ -8,7 +10,10 @@ function App() {
         <Route path="/" element={App} />
       </Routes>
       <GlobalNavigationBar />
-      initial react
+      <div style={{ display: 'flex' }}>
+        <SideNavigationBar />
+        <Main />
+      </div>
     </div>
   );
 }
