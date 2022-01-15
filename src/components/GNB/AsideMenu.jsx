@@ -7,12 +7,12 @@ import {signOut } from 'firebase/auth'
 const AsideMenu = () => {
     //logout function
     const onLogout=()=>{
-        try{
-            signOut(authService)
-            console.log('logout')
-        }catch(e){
-            console.log(e)
-        }
+        // try{
+        //     signOut(authService)
+        //     console.log('logout')
+        // }catch(e){
+        //     console.log(e)
+        // }
         
     }
     return (

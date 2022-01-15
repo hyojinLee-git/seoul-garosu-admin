@@ -23,9 +23,9 @@ const Login = () => {
     }
 
     //중복 로그인 방지
-    if(authService.currentUser){
-        return <Navigate replace to="/main"/>
-    }
+    // if(authService.currentUser){
+    //     return <Navigate replace to="/main"/>
+    // }
 
     //submit function
     const onSubmit= async (e)=>{

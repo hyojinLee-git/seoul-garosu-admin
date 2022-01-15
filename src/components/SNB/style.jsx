@@ -12,6 +12,8 @@ export const SideMenuUl=styled.ul`
     padding: 0;
     list-style: none;
     & button{
+        display: inline-flex;
+        align-items: center;
         background: none;
         border:none;
         outline: none;
@@ -20,10 +22,7 @@ export const SideMenuUl=styled.ul`
         text-align:start;
         height: 50px;
     }
-    & img{
-        vertical-align: bottom;
-        margin-right: 8px;
-        
-
+    & span{
+        margin-left: 5px;
     }
 `

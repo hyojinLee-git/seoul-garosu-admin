@@ -1,21 +1,19 @@
 import React from 'react';
-import person from '../../assets/Main/ClassificationBar/person.png'
-import school from '../../assets/Main/ClassificationBar/school.png'
-import supervisorAccount from '../../assets/Main/ClassificationBar/supervisor-account.png'
+import {MdPeopleAlt,MdPerson,MdSchool} from 'react-icons/md'
 import {ClassificationButton,ClassificationBarDiv} from './style'
 const ClassificationBar = ({onChangeTab,currentTab}) => {
     
     const buttonList=[
         {
-            icon:person,
+            icon:<MdPerson size={24}/>,
             title:'개인',
             color:'#EC8D71'
         },{
-            icon:supervisorAccount,
+            icon:<MdPeopleAlt size={24} style={{verticalAlign:""}}/>,
             title:'단체',
             color:'#5DA283'
         },{
-            icon:school,
+            icon:<MdSchool size={24}/>,
             title:'학교',
             color:'#4ECBC4'
         },
@@ -31,8 +29,8 @@ const ClassificationBar = ({onChangeTab,currentTab}) => {
                         onClick={onChangeTab}
                         className={buttonItem.title===currentTab? 'active':''}
                     >
-                        <img src={buttonItem.icon} alt={buttonItem.title}/>
-                        {buttonItem.title}
+                        {buttonItem.icon}
+                        <span>{buttonItem.title}</span>
                     </ClassificationButton>
                 ))
             }

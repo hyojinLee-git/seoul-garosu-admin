@@ -1,29 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {ApplyListUl,CheckBox} from './style'
 import { authService } from '../../utils/firebase';
 import {getDatabase,ref,child,get} from 'firebase/database'
-const ApplyList = () => {
+const ApplyList = ({currentTab}) => {
     const [applyList,setApplyList]=useState([])
-    
+
     //get data from firebase
-    const fetchData=()=>{
+    const fetchData=useCallback(()=>{
         const dbRef=ref(getDatabase());
         get(child(dbRef,`/Candidates`))
         .then(res=>{
             if(res.exists()){
-                console.log(Object.values(res.val()))
-                setApplyList(Object.values(res.val()))
-
+                const data=Object.values(res.val()).filter((fetchDataItem)=>currentTab===fetchDataItem.unit)
+                console.log(data)
+                setApplyList(data)
             }
         })
         .catch(error=>{
             console.log(error)
         })
-    }
+    },[currentTab])
+
     useEffect( ()=>{
-        console.log(authService.currentUser.uid)
+        //console.log(authService.currentUser.uid)
         fetchData()
-    },[])
+    },[fetchData])
+
     return (
 
             <ApplyListUl>
