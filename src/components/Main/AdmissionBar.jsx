@@ -3,32 +3,32 @@ import arrowDropDown from '../../assets/Main/AdmissionBar/arrow-drop-down.png'
 import arrowForward from '../../assets/Main/AdmissionBar/arrow-forward.png'
 import arrowBack from '../../assets/Main/AdmissionBar/arrow-back.png'
 import refresh from '../../assets/Main/AdmissionBar/refresh.png'
-import {AdmissionBarDiv,ProcessButton,CheckBox} from './style'
+import {AdmissionBarDiv,CheckBox,AdmissionBarButton,ProcessButton} from './style'
 const AdmissionBar = ({onClickDropDown}) => {
     return (
         <AdmissionBarDiv>
             <div>
                 <CheckBox type="checkbox" />
-                <button onClick={onClickDropDown}>
+                <AdmissionBarButton onClick={onClickDropDown}>
                     <img src={arrowDropDown} alt="dropdown-button"/>
-                </button>
+                </AdmissionBarButton>
             </div>
             <div>
                 {/* 제출부분인가 */}
-                <ProcessButton color="#6AD39F">승인</ProcessButton>
-                <ProcessButton color="#FF7E6B">반려</ProcessButton>
-                <ProcessButton color="#DADADA">대기</ProcessButton>
+                <ProcessButton className={"admission-btn"} color="#6AD39F">승인</ProcessButton>
+                <ProcessButton className={"admission-btn"} color="#FF7E6B">반려</ProcessButton>
+                <ProcessButton className={"admission-btn"} color="#DADADA">대기</ProcessButton>
             </div>
             <div>
-                <button>
+                <AdmissionBarButton>
                     <img src={refresh} alt="refresh"/>
-                </button>
-                <button>
+                </AdmissionBarButton>
+                <AdmissionBarButton>
                     <img src={arrowBack} alt="arrow-back"/>
-                </button>
-                <button>
+                </AdmissionBarButton>
+                <AdmissionBarButton>
                     <img src={arrowForward} alt="arrow-forward"/>
-                </button>
+                </AdmissionBarButton>
             </div>
         </AdmissionBarDiv>
     );

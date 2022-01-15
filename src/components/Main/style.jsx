@@ -14,25 +14,23 @@ export const AdmissionBarDiv=styled.div`
     align-items:center;
     padding:5px 10px;
     box-sizing: border-box;
-    &>*:nth-child(1){flex:1}
+    &>*:nth-child(1){flex:0.8}
     &>*:nth-child(2){flex:8}
     &>*:nth-child(3){flex:1.5}
     
-    & button{
+`
+export const AdmissionBarButton=styled.button`
         height: 24px;
         outline: none;
         border:none;
-        background: ${props=>props.color||"none"};
-        
-        
-    }
+        background: none;
 `
 export const ProcessButton=styled.button`
     background:${props=>props.color};
     width: 70px;
     height: 24px;
     border-radius: 5px;
-    /* color:white; */
+    color:white;
     border:none;
     outline: none;
     cursor: pointer;
