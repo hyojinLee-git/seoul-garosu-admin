@@ -3,7 +3,7 @@ import {Input,Button,Label,Form,LogoDiv,MetaData,Error} from './style'
 import LogoImg from '../../assets/logo.png'
 import { authService } from '../../utils/firebase';
 import {signInWithEmailAndPassword} from 'firebase/auth'
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const navigate=useNavigate();
@@ -22,14 +22,19 @@ const Login = () => {
         })
     }
 
+    //중복 로그인 방지
+    if(authService.currentUser){
+        return <Navigate replace to="/main"/>
+    }
+
     //submit function
     const onSubmit= async (e)=>{
         e.preventDefault();
         const {id,password}=loginData;
         setError(false)
         try{
-            let data;
-            data=await signInWithEmailAndPassword(authService,id,password)
+            
+            await signInWithEmailAndPassword(authService,id,password)
             setError(false)
             //main으로 이동
             navigate('/main')
