@@ -11,7 +11,7 @@ const Pagination = () => {
             <button>{"|<"}</button>
             <button>{"<"}</button>
             {pageList.map((item)=>(
-                <button>{item}</button>
+                <button key={item}>{item}</button>
             ))}
             <button>{">"}</button>
             <button>{">|"}</button>

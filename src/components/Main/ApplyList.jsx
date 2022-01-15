@@ -1,53 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {ApplyListUl,CheckBox} from './style'
-
+import { authService } from '../../utils/firebase';
+import {getDatabase,ref,child,get} from 'firebase/database'
 const ApplyList = () => {
-    const applyList=[
-        {
-            name:'이름',
-            location:'입양자지역',
-            treeLocation:'가로수위치',
-            treeType:'나무종류',
-            date:'1월12일10:13'
-        },{
-            name:'이름',
-            location:'입양자지역',
-            treeLocation:'가로수위치',
-            treeType:'나무종류',
-            date:'1월12일10:13'
-        },{
-            name:'이름',
-            location:'입양자지역',
-            treeLocation:'가로수위치',
-            treeType:'나무종류',
-            date:'1월12일10:13'
-        },{
-            name:'이름',
-            location:'입양자지역',
-            treeLocation:'가로수위치',
-            treeType:'나무종류',
-            date:'1월12일10:13'
-        },{
-            name:'이름',
-            location:'입양자지역',
-            treeLocation:'가로수위치',
-            treeType:'나무종류',
-            date:'1월12일10:13'
-        },
-        
-    ]
+    const [applyList,setApplyList]=useState([])
+    
+    //get data from firebase
+    const fetchData=()=>{
+        const dbRef=ref(getDatabase());
+        get(child(dbRef,`/Candidates`))
+        .then(res=>{
+            if(res.exists()){
+                console.log(Object.values(res.val()))
+                setApplyList(Object.values(res.val()))
+
+            }
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+    useEffect( ()=>{
+        console.log(authService.currentUser.uid)
+        fetchData()
+    },[])
     return (
 
             <ApplyListUl>
                 {
                     applyList.map(applyItem=>(
-                       <li key={applyItem.treeLocation}>
+                       <li key={applyItem.tree_id}>
                            <CheckBox type="checkbox"/>
                            <span>icon</span>
                            <span>{applyItem.name}</span>
                            <span>{applyItem.location}</span>
-                           <span>{applyItem.treeLocation}</span>
-                           <span>{applyItem.treeType}</span>
+                           <span>{applyItem.tree_location}</span>
+                           <span>{applyItem.tree_type}</span>
                            <span>{applyItem.date}</span>
                        </li>
                     ))

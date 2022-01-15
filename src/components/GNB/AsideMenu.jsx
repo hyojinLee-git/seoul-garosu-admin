@@ -5,10 +5,11 @@ import {AsideDiv} from './style'
 import {signOut } from 'firebase/auth'
 
 const AsideMenu = () => {
+    //logout function
     const onLogout=()=>{
         try{
             signOut(authService)
-            console.log(authService.currentUser.uid)
+            console.log('logout')
         }catch(e){
             console.log(e)
         }

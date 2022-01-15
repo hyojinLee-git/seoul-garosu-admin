@@ -5,6 +5,8 @@ import GlobalNavigationBar from '../components/GNB/GlobalNavigationBar';
 import { authService } from '../utils/firebase';
 import { Navigate } from 'react-router-dom';
 const Main = () => {
+
+    //로그인 정보 없을시 강제 이동
     if(!authService.currentUser){
         return <Navigate replace to="/login"/>
     }
