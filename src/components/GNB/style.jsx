@@ -69,12 +69,13 @@ export const AsideDiv=styled.div`
         height: 2px;
         background-color: black;
         margin-bottom: 2px;
+        margin-left: 5px;
     }
     & .profile{
         background:#EDEAE9;
         width: 24px;
         height: 24px;
         border-radius: 50%;
-        margin-left: 10px;
+        margin-left:15px;
     }
 `

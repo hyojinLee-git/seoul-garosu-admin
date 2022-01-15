@@ -5,12 +5,11 @@ import GlobalNavigationBar from '../components/GNB/GlobalNavigationBar';
 const Main = () => {
     return (
         <>
-            
             <GlobalNavigationBar />
-      <div style={{ display: 'flex' }}>
-        <SideNavigationBar />
-        <MainContents/>
-      </div>
+            <div style={{ display: 'flex' }}>
+                <SideNavigationBar />
+                <MainContents/>
+            </div>
         </>
     );
 };
