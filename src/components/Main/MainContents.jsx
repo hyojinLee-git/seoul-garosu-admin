@@ -8,6 +8,11 @@ import {MainDiv} from './style'
 
 const MainContents = () => {
     const [showDropDown,setShowDropDown]=useState(false)
+    const [currentTab,setCurrentTab]=useState("개인")
+    const onChangeTab=(e)=>{
+        console.log(e.currentTarget.textContent)
+        setCurrentTab(e.currentTarget.textContent)
+    } 
     const onClickDropDown=()=>{
         setShowDropDown(prev=>!prev)
     }
@@ -15,8 +20,8 @@ const MainContents = () => {
         <MainDiv >
             <AdmissionBar onClickDropDown={onClickDropDown}/>
             { showDropDown&& <DropDown/>}
-            <ClassificationBar/>
-            <ApplyList/>
+            <ClassificationBar currentTab={currentTab} onChangeTab={onChangeTab}/>
+            <ApplyList currentTab={currentTab}/>
             <Pagination/>
         </MainDiv>
     );

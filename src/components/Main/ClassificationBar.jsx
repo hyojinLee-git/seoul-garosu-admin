@@ -2,8 +2,9 @@ import React from 'react';
 import person from '../../assets/Main/ClassificationBar/person.png'
 import school from '../../assets/Main/ClassificationBar/school.png'
 import supervisorAccount from '../../assets/Main/ClassificationBar/supervisor-account.png'
-import {ClassificationButton} from './style'
-const ClassificationBar = () => {
+import {ClassificationButton,ClassificationBarDiv} from './style'
+const ClassificationBar = ({onChangeTab,currentTab}) => {
+    
     const buttonList=[
         {
             icon:person,
@@ -19,17 +20,23 @@ const ClassificationBar = () => {
             color:'#4ECBC4'
         },
     ]
+  
     return (
-        <div>
+        <ClassificationBarDiv>
             {
-                buttonList.map((buttonItem)=>(
-                    <ClassificationButton color={buttonItem.color} key={buttonItem.title}>
+                buttonList.map((buttonItem,index)=>(
+                    <ClassificationButton 
+                        color={buttonItem.color} 
+                        key={buttonItem.title} 
+                        onClick={onChangeTab}
+                        className={buttonItem.title===currentTab? 'active':''}
+                    >
                         <img src={buttonItem.icon} alt={buttonItem.title}/>
                         {buttonItem.title}
                     </ClassificationButton>
                 ))
             }
-        </div>
+        </ClassificationBarDiv>
     );
 };
 

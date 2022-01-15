@@ -46,18 +46,22 @@ export const CheckBox=styled.input`
 `
 
 export const ClassificationBarDiv=styled.div`
-
+        
 `
 export const ClassificationButton=styled.button`
-        border:none;
+    border:none;
     outline: none;
     cursor: pointer;
     background: none;
-    color:${props=>props.color||'black'};
     width:180px;
     height: 46px;
     text-align: start;
-    border-bottom: 3px solid ${props=>props.color};
+    &.active{
+        color:${props=>props.color};
+        border-bottom: 3px solid ${props=>props.color};
+    }
+    
+
 `
 
 export const ApplyListUl=styled.ul`
