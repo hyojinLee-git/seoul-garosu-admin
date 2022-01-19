@@ -75,8 +75,9 @@ export const ApplyListUl=styled.ul`
         height: 40px;
         align-items: center;
         padding:0 5px;
+        
         &>*:nth-child(1){flex:0.5};
-        &>*:nth-child(2){flex:0.5};
+        &>*:nth-child(2){flex:0.5;display:flex;align-items:center};
         &>*:nth-child(3){flex:1};
         &>*:nth-child(4){flex:2};
         &>*:nth-child(5){flex:3};

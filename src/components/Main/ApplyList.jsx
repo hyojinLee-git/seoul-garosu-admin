@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {ApplyListUl,CheckBox} from './style'
 import { authService } from '../../utils/firebase';
 import {getDatabase,ref,child,get} from 'firebase/database'
+import {MdCircle} from 'react-icons/md'
 const ApplyList = ({currentTab}) => {
     const [applyList,setApplyList]=useState([])
 
@@ -33,7 +34,9 @@ const ApplyList = ({currentTab}) => {
                     applyList.map(applyItem=>(
                        <li key={applyItem.tree_id}>
                            <CheckBox type="checkbox"/>
-                           <span>icon</span>
+                           <span>
+                               {<MdCircle size={24} color='#DADADA'/>}
+                            </span>
                            <span>{applyItem.name}</span>
                            <span>{applyItem.location}</span>
                            <span>{applyItem.tree_location}</span>
