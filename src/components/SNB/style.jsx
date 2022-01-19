@@ -11,8 +11,12 @@ export const SideMenuUl=styled.ul`
     margin:0;
     padding: 0;
     list-style: none;
-    & a{
-        display: flex;
+    & button{
+        display:inline-flex;
+        background:none;
+        border:none;
+        outline: none;
+        cursor: pointer;
         color:black;
         text-decoration: none;
         align-items: center;

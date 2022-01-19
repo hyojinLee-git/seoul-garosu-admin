@@ -1,37 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {SideMenuUl} from './style'
-import {MdDrafts,MdCheck,MdReport,MdRemoveCircle} from 'react-icons/md'
-import {Link} from 'react-router-dom'
+import { useLocation} from 'react-router-dom'
+import {treeMenuList,mainMenuList} from './menuList'
 
 const SideMenu = () => {
-    const menuList=[
-        {
-            icon:<MdDrafts size={24}/>,
-            title:'전체 입양신청',
-            link:'/'
-        },{
-            icon:<MdCheck size={24}/>,
-            title:'승인한 입양신청',
-            link:'/main/approval'
-        },{
-            icon:<MdReport size={24}/>,
-            title:'반려한 입양신청',
-            link:'/main/disapproval'
-        },{
-            icon:<MdRemoveCircle size={24}/>,
-            title:'대기중인 입양신청',
-            link:'/main/wait'
-        },
-    ]
+    const {pathname}=useLocation()
+    const [route,setRoute]=useState(pathname)
+    const [menuList,setMenuList]=useState(mainMenuList)
+    const setMenuListFunction=(route)=>{
+        switch(route){
+            case '/main':
+                return mainMenuList
+            case '/tree':
+                return treeMenuList
+            default:
+                return 
+        }
+    }
+    useEffect(()=>{
+        setRoute(pathname)
+        //refactoring 필요
+        setMenuList(setMenuListFunction(route))
+
+    },[pathname, route, setRoute])
+    
     return (
         <SideMenuUl>
             {
-                menuList.map(menuItem=>(
+                menuList?.map(menuItem=>(
                     <li key={menuItem.title}>
-                        <Link to={menuItem.link}>
+                        <button>
                             {menuItem.icon}
                             <span>{menuItem.title}</span>
-                        </Link>
+                        </button>
                     </li>
                 ))
             }
