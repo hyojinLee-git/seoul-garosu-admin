@@ -69,6 +69,7 @@ export const ApplyListUl=styled.ul`
     padding:0;
     list-style: none;
     width: 100%;
+    cursor: pointer;
     &>li{
         border-bottom:1px solid #EDEAE9;
         display: flex;

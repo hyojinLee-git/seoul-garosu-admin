@@ -2,26 +2,34 @@ import React, { useState } from 'react';
 import AdmissionBar from './AdmissionBar';
 import ApplyList from './ApplyList';
 import ClassificationBar from './ClassificationBar';
-import DropDown from './DropDown';
 import Pagination from './Pagination';
 import {MainDiv} from './style'
 
 const MainContents = () => {
     const [showDropDown,setShowDropDown]=useState(false)
     const [currentTab,setCurrentTab]=useState("개인")
+
+    //개인, 단체, 학교 tab 바꿔주기
     const onChangeTab=(e)=>{
         console.log(e.currentTarget.textContent)
         setCurrentTab(e.currentTarget.textContent)
-    } 
-    const onClickDropDown=()=>{
-        setShowDropDown(prev=>!prev)
     }
+
+    //dropdown 메뉴 토글
+    const onToggleDropDown=()=>{
+        setShowDropDown(!showDropDown)
+    }
+
+     
+
     return (
         <MainDiv >
-            <AdmissionBar onClickDropDown={onClickDropDown}/>
-            { showDropDown&& <DropDown/>}
-            <ClassificationBar currentTab={currentTab} onChangeTab={onChangeTab}/>
-            <ApplyList currentTab={currentTab}/>
+            <form>
+                <AdmissionBar onToggleDropDown={onToggleDropDown}/>
+                <ClassificationBar currentTab={currentTab} onChangeTab={onChangeTab}/>
+                <ApplyList currentTab={currentTab}/>
+            </form>
+            
             <Pagination/>
         </MainDiv>
     );

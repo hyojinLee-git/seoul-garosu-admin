@@ -1,10 +1,20 @@
 import React from 'react';
+import { DropDownDiv,DropDownMenuButton,DropDownUl,DropDownLi } from './css/styleDropDown';
 
 const DropDown = () => {
+    const dropDownList=['전체 선택', '읽은 내용만','안읽은 내용만']
     return (
-        <div>
-            i'm drop down
-        </div>
+        <DropDownDiv>
+            <DropDownUl>
+                {
+                    dropDownList.map(dropDownItem=>(
+                        <DropDownLi key={dropDownItem}>
+                            <DropDownMenuButton type='button'>{dropDownItem}</DropDownMenuButton>
+                        </DropDownLi>
+                    ))
+                }
+            </DropDownUl>
+        </DropDownDiv>
     );
 };
 

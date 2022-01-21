@@ -28,6 +28,7 @@ const ClassificationBar = ({onChangeTab,currentTab}) => {
                         key={buttonItem.title} 
                         onClick={onChangeTab}
                         className={buttonItem.title===currentTab? 'active':''}
+                        type='button'
                     >
                         {buttonItem.icon}
                         <span>{buttonItem.title}</span>

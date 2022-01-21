@@ -4,7 +4,11 @@ import SideNavigationBar from '../components/SNB/SideNavigationBar';
 import GlobalNavigationBar from '../components/GNB/GlobalNavigationBar';
 import { authService } from '../utils/firebase';
 import { Navigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import ApplyModal from '../components/Main/applyModal/ApplyModal';
+import { applyModalState } from '../state/applyModalState';
 const Main = () => {
+    const [showApplyModal]=useRecoilState(applyModalState)
 
     //로그인 정보 없을시 강제 이동
     // if(!authService.currentUser){
@@ -17,6 +21,7 @@ const Main = () => {
                 <SideNavigationBar />
                 <MainContents/>
             </div>
+            {showApplyModal && <ApplyModal/>}
         </>
     );
 };
