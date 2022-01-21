@@ -1,8 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import {MenuUl} from './style'
+import React, { useCallback, useEffect } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import {MenuLi, MenuUl} from './style'
 
 const Menu = () => {
+    const location=useLocation()
+
 
     const menuList=[
         {
@@ -28,7 +30,7 @@ const Menu = () => {
     return (
         <MenuUl>
             {menuList.map((menuItem)=>(
-                <li key={menuItem.title}><Link to={menuItem.link}>{menuItem.title}</Link></li>
+                <MenuLi key={menuItem.title}><Link className={menuItem.link===location.pathname? 'active':''} to={menuItem.link}>{menuItem.title}</Link></MenuLi>
             ))}
         </MenuUl>
     );

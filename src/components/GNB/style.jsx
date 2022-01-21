@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
 export const GNB=styled.nav`
@@ -18,17 +19,20 @@ export const MenuUl=styled.ul`
     padding:0;
     margin:0;
     align-items: center;
-    & li{
-        margin:0 10px;
-    }
+
+`
+export const MenuLi=styled.li`
+    margin:0 10px;
     & *:hover{
         color:#44AB9A;
     }
     & a{
         text-decoration: none;
-        color:black
+        color:black;
     }
-
+    & .active{
+        color:#44AB9A
+    }
 `
 export const LogoDiv=styled.div`
     display: flex;
