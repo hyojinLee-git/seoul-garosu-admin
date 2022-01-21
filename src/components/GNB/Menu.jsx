@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import {MenuLi, MenuUl} from './style'
 
 const Menu = () => {
