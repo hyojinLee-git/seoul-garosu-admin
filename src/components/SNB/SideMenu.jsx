@@ -9,7 +9,7 @@ const SideMenu = () => {
     const {pathname}=useLocation()
     const [route,setRoute]=useState(pathname)
     const [menuList,setMenuList]=useState(mainMenuList)
-    const [menu,setMenu]=useRecoilState(menuState)
+    const [currentMenu,setCurrentMenu]=useRecoilState(menuState)
 
     //route에 따라 menuList 반환
     const setMenuListFunction=(route)=>{
@@ -23,25 +23,27 @@ const SideMenu = () => {
         }
     }
 
-    //버튼 클릭시 menu 바뀜
+    //버튼 클릭시 currentMenu 바뀜
     const onClickMenu=(e)=>{
-        setMenu(e.currentTarget.lastChild.innerText)
-        
+        setCurrentMenu(e.currentTarget.lastChild.innerText)
     }
+    
     //route 설정, route에 따라 menuList 바뀌어서 반환
     useEffect(()=>{
         setRoute(pathname)
+
         //refactoring 필요
         setMenuList(setMenuListFunction(route))
+        setCurrentMenu(menuList[0].title)
 
-    },[pathname, route, setRoute,menu])
+    },[pathname, route, setRoute, setCurrentMenu, menuList])
     
     return (
         <SideMenuUl>
             {
                 menuList?.map(menuItem=>(
                     <li key={menuItem.title} >
-                        <button onClick={onClickMenu} style={{color:menu===menuItem.title?'#44AB9A':''}}>
+                        <button onClick={onClickMenu} style={{color:currentMenu===menuItem.title?'#44AB9A':''}}>
                             {menuItem.icon}
                             <span>{menuItem.title}</span>
                         </button>
