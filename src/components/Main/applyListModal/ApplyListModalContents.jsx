@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import {ApplyModalContentsWrapper,ApplyModalContentsHeader,ApplyModalContentsBody,ApplyModalContentsMeta,Button} from './css/styledApplyModal'
+import {ApplyModalContentsWrapper,ApplyModalContentsHeader,ApplyModalContentsBody,ApplyModalContentsMeta,Button} from './css/style'
 import { applyModalState} from '../../../state/applyModalState'
 import { useRecoilState } from 'recoil';
 import { clickedApplyState } from '../../../state/applyModalState';
 import {getDatabase,ref,child,get, set} from 'firebase/database'
 import {MdClear} from 'react-icons/md'
 
-const ApplyModalContents = () => {
+const ApplyListModalContents = () => {
     const [showApplyModal,setShowApplyModal]=useRecoilState(applyModalState)
     const [clickedApply]=useRecoilState(clickedApplyState)
     const [clickedApplyItem,setClickedApplyItem]=useState({})
@@ -68,4 +68,4 @@ const ApplyModalContents = () => {
     );
 };
 
-export default ApplyModalContents;
+export default ApplyListModalContents;

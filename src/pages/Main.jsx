@@ -5,7 +5,7 @@ import GlobalNavigationBar from '../components/GNB/GlobalNavigationBar';
 import { authService } from '../utils/firebase';
 import { Navigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import ApplyModal from '../components/Main/applyModal/ApplyModal';
+import ApplyListModal from '../components/Main/applyListModal/ApplyListModal';
 import { applyModalState } from '../state/applyModalState';
 const Main = () => {
     const [showApplyModal]=useRecoilState(applyModalState)
@@ -21,7 +21,7 @@ const Main = () => {
                 <SideNavigationBar />
                 <MainContents/>
             </div>
-            {showApplyModal && <ApplyModal/>}
+            {showApplyModal && <ApplyListModal/>}
         </>
     );
 };
