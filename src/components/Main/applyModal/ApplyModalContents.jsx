@@ -6,7 +6,7 @@ import { clickedApplyState } from '../../../state/applyModalState';
 import {getDatabase,ref,child,get, set} from 'firebase/database'
 import {MdClear} from 'react-icons/md'
 
-const ApplyListModalContents = () => {
+const ApplyModalContents = () => {
     const [showApplyModal,setShowApplyModal]=useRecoilState(applyModalState)
     const [clickedApply]=useRecoilState(clickedApplyState)
     const [clickedApplyItem,setClickedApplyItem]=useState({})
@@ -68,4 +68,4 @@ const ApplyListModalContents = () => {
     );
 };
 
-export default ApplyListModalContents;
+export default ApplyModalContents;

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import AdmissionBar from './AdmissionBar';
+import AdmissionBar from './admissionBar/AdmissionBar';
 import ApplyList from './ApplyList';
-import ClassificationBar from './ClassificationBar';
-import Pagination from './Pagination';
+import ClassificationBar from './classificationBar/ClassificationBar';
+import Pagination from './pagination/Pagination';
 import {MainDiv} from './style'
-import DropDown from './DropDown'
+import DropDown from './dropDown/DropDown'
 const MainContents = () => {
     const [showDropDown,setShowDropDown]=useState(false)
     const [currentTab,setCurrentTab]=useState("개인")

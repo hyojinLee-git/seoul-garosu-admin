@@ -1,6 +1,6 @@
 import React from 'react';
 import {MdPeopleAlt,MdPerson,MdSchool} from 'react-icons/md'
-import {ClassificationButton,ClassificationBarDiv} from './style'
+import {ClassificationButton} from './style'
 const ClassificationBar = ({onChangeTab,currentTab}) => {
     
     const buttonList=[
@@ -20,7 +20,7 @@ const ClassificationBar = ({onChangeTab,currentTab}) => {
     ]
   
     return (
-        <ClassificationBarDiv>
+        <div>
             {
                 buttonList.map((buttonItem,index)=>(
                     <ClassificationButton 
@@ -35,7 +35,7 @@ const ClassificationBar = ({onChangeTab,currentTab}) => {
                     </ClassificationButton>
                 ))
             }
-        </ClassificationBarDiv>
+        </div>
     );
 };
 

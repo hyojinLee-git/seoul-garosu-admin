@@ -7,62 +7,12 @@ export const MainDiv=styled.div`
     position: relative;
 `
 
-export const AdmissionBarDiv=styled.div`
-    display: flex;
-    margin-top: 36px;
-    /* border:1px solid red; */
-    align-items:center;
-    padding:5px 10px;
-    box-sizing: border-box;
-    &>*:nth-child(1){flex:0.8}
-    &>*:nth-child(2){flex:8}
-    &>*:nth-child(3){flex:1.5}
-    
-`
-export const AdmissionBarButton=styled.button`
-        height: 24px;
-        outline: none;
-        border:none;
-        background: none;
-`
-export const ProcessButton=styled.button`
-    background:${props=>props.color};
-    width: 70px;
-    height: 24px;
-    border-radius: 5px;
-    color:white;
-    border:none;
-    outline: none;
-    cursor: pointer;
-    margin-left:10px;
-
-
-`
 export const CheckBox=styled.input`
     width: 18px;
     height: 18px;
 `
 
-export const ClassificationBarDiv=styled.div`
-        
-`
-export const ClassificationButton=styled.button`
-    border:none;
-    outline: none;
-    cursor: pointer;
-    background: none;
-    width:180px;
-    height: 46px;
-    text-align: start;
-    display: inline-flex;
-    align-items: center;
-    &.active{
-        color:${props=>props.color};
-        border-bottom: 3px solid ${props=>props.color};
-    }
-    
 
-`
 
 export const ApplyListUl=styled.ul`
     margin:0;
@@ -84,19 +34,5 @@ export const ApplyListUl=styled.ul`
         &>*:nth-child(5){flex:3};
         &>*:nth-child(6){flex:3};
         &>*:nth-child(7){flex:2};
-    }
-`
-export const PaginationDiv=styled.div`
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 8vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    & button{
-        background: none;
-        border:none;
-        outline: none;
     }
 `

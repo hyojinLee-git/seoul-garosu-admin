@@ -1,12 +1,17 @@
 import React from 'react';
-import arrowDropDown from '../../assets/Main/AdmissionBar/arrow-drop-down.png'
-import arrowForward from '../../assets/Main/AdmissionBar/arrow-forward.png'
-import arrowBack from '../../assets/Main/AdmissionBar/arrow-back.png'
-import refresh from '../../assets/Main/AdmissionBar/refresh.png'
-import {AdmissionBarDiv,CheckBox,AdmissionBarButton,ProcessButton} from './style'
+// import arrowDropDown from '../../assets/Main/AdmissionBar/arrow-drop-down.png'
+// import arrowForward from '../../assets/Main/AdmissionBar/arrow-forward.png'
+// import arrowBack from '../../assets/Main/AdmissionBar/arrow-back.png'
+// import refresh from '../../assets/Main/AdmissionBar/refresh.png'
+
+import {MdRefresh,MdOutlineChevronLeft,MdOutlineChevronRight,MdArrowDropDown} from 'react-icons/md'
+
+import {AdmissionBarDiv,AdmissionBarButton,ProcessButton} from './style'
 import { useRecoilState } from 'recoil';
-import { checkboxState } from '../../state/checkboxState';
-import { dataListState } from '../../state/dataListState';
+import { checkboxState } from '../../../state/checkboxState';
+import { dataListState } from '../../../state/dataListState';
+import { CheckBox } from '../style';
+
 const AdmissionBar = ({onToggleDropDown}) => {
     const [checked,setChecked]=useRecoilState(checkboxState)
     const [dataList,setDataList]=useRecoilState(dataListState)
@@ -26,7 +31,7 @@ const AdmissionBar = ({onToggleDropDown}) => {
             <div>
                 <CheckBox type="checkbox" onChange={onChange} checked={checked}/>
                 <AdmissionBarButton onClick={onToggleDropDown} type='button'> 
-                    <img src={arrowDropDown} alt="dropdown-button"/>
+                    <MdArrowDropDown size={18}/>
                 </AdmissionBarButton>
             </div>
             <div>
@@ -37,13 +42,13 @@ const AdmissionBar = ({onToggleDropDown}) => {
             </div>
             <div>
                 <AdmissionBarButton type='button'>
-                    <img src={refresh} alt="refresh"/>
+                    <MdRefresh size={24} color='rgba(0, 0, 0, 0.54)'/>
                 </AdmissionBarButton>
                 <AdmissionBarButton type='button'>
-                    <img src={arrowBack} alt="arrow-back"/>
+                    <MdOutlineChevronLeft size={24} color='rgba(0, 0, 0, 0.54)'/>
                 </AdmissionBarButton>
                 <AdmissionBarButton type='button'>
-                    <img src={arrowForward} alt="arrow-forward"/>
+                    <MdOutlineChevronRight size={24} color='rgba(0, 0, 0, 0.54)'/>
                 </AdmissionBarButton>
             </div>
         </AdmissionBarDiv>

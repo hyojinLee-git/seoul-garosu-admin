@@ -1,12 +1,12 @@
 import React from 'react';
-import {ApplyModalDiv} from './style'
-
+import ApplyListModalContents from './ApplyModalContents';
+import { ApplyModalDiv } from './css/style';
 const ApplyModal = () => {
     return (
         <ApplyModalDiv>
-            hi i'm modal
-            
+            <ApplyListModalContents/>
         </ApplyModalDiv>
+
     );
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { DropDownDiv,DropDownMenuButton,DropDownUl,DropDownLi } from './css/styleDropDown';
+import { DropDownDiv,DropDownMenuButton,DropDownUl,DropDownLi } from './style';
 
 const DropDown = () => {
     const dropDownList=['전체 선택', '읽은 내용만','안읽은 내용만']
