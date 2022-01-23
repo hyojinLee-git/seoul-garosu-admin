@@ -14,19 +14,16 @@ const ApplyList = ({currentTab}) => {
     const [dataList,setDataList]=useRecoilState(fetchDataState)
     //const [dataList,setDataList]=useState([])
     const [menu]=useRecoilState(menuState)
-    //const [check,setCheck]=useRecoilState(checkboxState)
+    const [check,setCheck]=useRecoilState(checkboxState)
     const [color,setColor]=useState('#DADADA')
     const[checkedList,setCheckedList]=useRecoilState(checkedListState)
     const [showApplyModal,setShowApplyModal]=useRecoilState(applyModalState)
     const [clickedApplyList,setClickedApplyList]=useState(clickedApplyState)
     //const [checkedList,setCheckedList]=useRecoilState(checkedListState)
 
-    //이벤트전파때매 안되는중ㅠㅠ
     const onClickApplyItem=(e)=>{
-        //console.log(e.target)
-        e.stopPropagation()
-        //음.........어캐하징ㅎ
-        //setShowApplyModal(true)
+        if(e.target.tagName==='INPUT') return
+        setShowApplyModal(true)
         //setClickedApplyList(treeId)
     }
 
@@ -41,8 +38,6 @@ const ApplyList = ({currentTab}) => {
                 checkedList.filter(el=>el.tree_id!==treeId)
             )
         }
-        console.log(checked)
-        console.log(checkedList)
 
     }
     
@@ -88,17 +83,20 @@ const ApplyList = ({currentTab}) => {
     useEffect( ()=>{
         //console.log(authService.currentUser.uid)
         fetchData()
-        // return()=>{
-        //     setCheck(false)
-        // }
-    },[ fetchData])
+        return()=>{
+            setCheck(false)
+        }
+    },[fetchData, setCheck])
 
     return (
 
             <ApplyListUl>
                 {
                     dataList?.map((applyItem)=>(
-                       <li key={applyItem.tree_id} onClick={onClickApplyItem}>
+                       <li 
+                        key={applyItem.tree_id} 
+                        onClick={(e)=>onClickApplyItem(e)}
+                        >
                            <CheckBox 
                                 type="checkbox" 
                                 checked={checkedList.includes(applyItem)} 
