@@ -10,6 +10,7 @@ import { dataListState } from '../../state/dataListState';
 const AdmissionBar = ({onToggleDropDown}) => {
     const [checked,setChecked]=useRecoilState(checkboxState)
     const [dataList,setDataList]=useRecoilState(dataListState)
+    
     const onChange=(e)=>{
         setChecked(!checked)
     }

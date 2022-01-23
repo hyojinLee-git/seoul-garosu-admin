@@ -4,7 +4,7 @@ import ApplyList from './ApplyList';
 import ClassificationBar from './ClassificationBar';
 import Pagination from './Pagination';
 import {MainDiv} from './style'
-
+import DropDown from './DropDown'
 const MainContents = () => {
     const [showDropDown,setShowDropDown]=useState(false)
     const [currentTab,setCurrentTab]=useState("개인")
@@ -26,6 +26,7 @@ const MainContents = () => {
         <MainDiv >
             <form>
                 <AdmissionBar onToggleDropDown={onToggleDropDown}/>
+                {showDropDown && <DropDown/>}
                 <ClassificationBar currentTab={currentTab} onChangeTab={onChangeTab}/>
                 <ApplyList currentTab={currentTab}/>
             </form>

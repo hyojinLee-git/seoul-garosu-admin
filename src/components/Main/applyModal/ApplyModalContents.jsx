@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import {ApplyModalContentsDiv} from './css/styledApplyModal'
+import {ApplyModalContentsWrapper,ApplyModalContentsHeader,ApplyModalContentsBody,ApplyModalContentsMeta,Button} from './css/styledApplyModal'
 import { applyModalState} from '../../../state/applyModalState'
 import { useRecoilState } from 'recoil';
 import { clickedApplyState } from '../../../state/applyModalState';
 import {getDatabase,ref,child,get, set} from 'firebase/database'
+import {MdClear} from 'react-icons/md'
 
 const ApplyModalContents = () => {
     const [showApplyModal,setShowApplyModal]=useRecoilState(applyModalState)
     const [clickedApply]=useRecoilState(clickedApplyState)
     const [clickedApplyItem,setClickedApplyItem]=useState({})
     const {name, date,location, tree_location, tree_type}=clickedApplyItem
+
+    //close modal
     const closeApplyModal=()=>{
         setShowApplyModal(false)
     }
+
+    
+
+    //data loading
     useEffect(()=>{
         //아이디로 가져오긴 해야댐
         //키 가져와야되네!?
@@ -26,18 +33,25 @@ const ApplyModalContents = () => {
     },[])
 
     return (
-        <ApplyModalContentsDiv>
-            <h1>입양 신청서</h1>
-            <button onClick={closeApplyModal}>x</button>
-            <hr/>
-            <div>
-                <span>
+        <ApplyModalContentsWrapper>
+            <ApplyModalContentsHeader>
+                <h1>입양 신청서</h1>
+                <button onClick={closeApplyModal}>
+                    <MdClear size={35} color='rgba(0, 0, 0, 0.54)'/>
+                </button>
+            </ApplyModalContentsHeader>
+            
+
+            <ApplyModalContentsMeta>
+                <div>
                     {name},{location},{date}
-                </span>
-                <button>승인</button>
-                <button>반려</button>
-            </div>
-            <div>
+                </div>
+                <div>
+                    <Button color='#6AD39F'>승인</Button>
+                    <Button color='#FFBEB4'>반려</Button>
+                </div>
+            </ApplyModalContentsMeta>
+            <ApplyModalContentsBody>
                 <h3>입양정보</h3>
                 <div>
                     {tree_location} {tree_type}
@@ -48,8 +62,9 @@ const ApplyModalContents = () => {
                         지원동기를 말하고 있습니다  지원동기를 말하고 있습니다  지원동기를 말하고 있습니다  지원동기를 말하고 있습니다  지원동기를 말하고 있습니다 
                     </p>
                 </div>
-            </div>
-        </ApplyModalContentsDiv>
+            
+        </ApplyModalContentsBody>
+        </ApplyModalContentsWrapper>
     );
 };
 
