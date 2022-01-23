@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import {MdRefresh,MdOutlineChevronLeft,MdOutlineChevronRight,MdArrowDropDown} from 'react-icons/md'
-
+import { checkboxState } from '../../../state/checkboxState';
 import {AdmissionBarDiv,AdmissionBarButton,ProcessButton} from './style'
 import { useRecoilState } from 'recoil';
 import { fetchDataState } from '../../../state/fetchDataState';
@@ -9,17 +9,17 @@ import { CheckBox } from '../style';
 import { checkedListState } from '../../../state/checkedListState';
 
 const AdmissionBar = ({onToggleDropDown}) => {
-    //const [checked,setChecked]=useRecoilState(checkboxState)
-    const [checked,setChecked]=useState(false)
+    const [checked,setChecked]=useRecoilState(checkboxState)
+    //const [checked,setChecked]=useState(false)
     const [dataList,setDataList]=useRecoilState(fetchDataState)
     const [checkedList,setCheckedList]=useRecoilState(checkedListState)
     
     const onChange=()=>{
         setChecked(!checked)
-        
     }
     const onSubmitApproval=()=>{
         console.log('승인')
+        
     }
     const onSubmitDispproval=()=>{
         console.log('반려')
@@ -33,12 +33,19 @@ const AdmissionBar = ({onToggleDropDown}) => {
         }
     },[checked, dataList, setCheckedList])
 
+    useEffect(()=>{
+        if(dataList.length===checkedList.length){
+            setChecked(true)
+        }
+    },[checkedList.length, dataList.length, setChecked])
+
     return (
         <AdmissionBarDiv>
             <div>
                 <CheckBox 
                     type="checkbox" 
-                    onChange={(e)=>onChange(e.target.checked)} 
+                    onChange={onChange}
+                    //onChange={(e)=>onChange(e.target.checked)} 
                     checked={checkedList.length===dataList.length}
                 />
                 <AdmissionBarButton onClick={onToggleDropDown} type='button'> 

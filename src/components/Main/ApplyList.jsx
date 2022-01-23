@@ -3,28 +3,27 @@ import {ApplyListUl,CheckBox} from './style'
 import { authService } from '../../utils/firebase';
 import {getDatabase,ref,child,get, set} from 'firebase/database'
 import {MdCircle} from 'react-icons/md'
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import { menuState } from '../../state/menuState';
 import { checkboxState } from '../../state/checkboxState';
 import { fetchDataState } from '../../state/fetchDataState';
 import { applyModalState,clickedApplyState } from '../../state/applyModalState';
 import { checkedListState } from '../../state/checkedListState';
-//import { checkedListState } from '../../state/dataListState';
+
 const ApplyList = ({currentTab}) => {
     const [dataList,setDataList]=useRecoilState(fetchDataState)
-    //const [dataList,setDataList]=useState([])
     const [menu]=useRecoilState(menuState)
-    const [check,setCheck]=useRecoilState(checkboxState)
+    const [checked,setChecked]=useRecoilState(checkboxState)
     const [color,setColor]=useState('#DADADA')
     const[checkedList,setCheckedList]=useRecoilState(checkedListState)
     const [showApplyModal,setShowApplyModal]=useRecoilState(applyModalState)
-    const [clickedApplyList,setClickedApplyList]=useState(clickedApplyState)
-    //const [checkedList,setCheckedList]=useRecoilState(checkedListState)
+    const [clickedApply,setClickedApply]=useRecoilState(clickedApplyState)
 
-    const onClickApplyItem=(e)=>{
+
+    const onClickApplyItem=(e,key)=>{
         if(e.target.tagName==='INPUT') return
         setShowApplyModal(true)
-        //setClickedApplyList(treeId)
+        setClickedApply(key)
     }
 
     //input 값 change
@@ -40,6 +39,13 @@ const ApplyList = ({currentTab}) => {
         }
 
     }
+
+    const addObjectKey=(obj)=>{
+        for(let val in obj){
+            obj[val]['key']=val   
+        }
+        return obj
+    }
     
 
     //get data from firebase
@@ -50,8 +56,8 @@ const ApplyList = ({currentTab}) => {
             get(child(dbRef,`/Trees_taken`))
             .then(res=>{
                 if(res.exists()){
-
-                    const data=Object.values(res.val())
+                    const preData=addObjectKey(res.val())
+                    const data=Object.values(preData)
                     console.log(data)
                     setDataList(data)
                     setColor('#6AD39F')
@@ -62,8 +68,8 @@ const ApplyList = ({currentTab}) => {
             get(child(dbRef,`/Candidates`))
             .then(res=>{
                 if(res.exists()){
-
-                    const data=Object.values(res.val()).filter((fetchDataItem)=>currentTab===fetchDataItem.unit)
+                    const preData=addObjectKey(res.val())
+                    const data=Object.values(preData).filter((fetchDataItem)=>currentTab===fetchDataItem.unit)
                     console.log(data)
                     setDataList(data)
                     setColor('#DADADA')
@@ -84,9 +90,9 @@ const ApplyList = ({currentTab}) => {
         //console.log(authService.currentUser.uid)
         fetchData()
         return()=>{
-            setCheck(false)
+            setChecked(false)
         }
-    },[fetchData, setCheck])
+    },[fetchData, setChecked])
 
     return (
 
@@ -95,7 +101,7 @@ const ApplyList = ({currentTab}) => {
                     dataList?.map((applyItem)=>(
                        <li 
                         key={applyItem.tree_id} 
-                        onClick={(e)=>onClickApplyItem(e)}
+                        onClick={(e)=>onClickApplyItem(e,applyItem.key)}
                         >
                            <CheckBox 
                                 type="checkbox" 

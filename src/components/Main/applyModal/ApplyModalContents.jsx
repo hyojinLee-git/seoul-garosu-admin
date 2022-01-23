@@ -8,7 +8,7 @@ import {MdClear} from 'react-icons/md'
 
 const ApplyModalContents = () => {
     const [showApplyModal,setShowApplyModal]=useRecoilState(applyModalState)
-    //const [clickedApply]=useRecoilState(clickedApplyState)
+    const [clickedApply]=useRecoilState(clickedApplyState)
     const [clickedApplyItem,setClickedApplyItem]=useState({})
 
     const {name, date,location, tree_location, tree_type}=clickedApplyItem
@@ -20,20 +20,15 @@ const ApplyModalContents = () => {
         setShowApplyModal(false)
     }
 
-    
-
     //data loading
     useEffect(()=>{
-        //아이디로 가져오긴 해야댐
-        //키 가져와야되네!?
         const dbref=ref(getDatabase())
-        get(child(dbref,`Candidates/-Mpyi-aJ4x0K3KqdFgQV`))
+        get(child(dbref,`Candidates/${clickedApply}`))
         .then((res)=>{
-            console.log(res.val())
             setClickedApplyItem(res.val())
         })
         .catch(e=>console.log(e))
-    },[])
+    },[clickedApply])
 
     return (
         <ApplyModalContentsWrapper>
