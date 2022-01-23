@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import axios from 'axios'
 import {MdRefresh,MdOutlineChevronLeft,MdOutlineChevronRight,MdArrowDropDown} from 'react-icons/md'
 import { checkboxState } from '../../../state/checkboxState';
 import {AdmissionBarDiv,AdmissionBarButton,ProcessButton} from './style'
@@ -7,22 +7,39 @@ import { useRecoilState } from 'recoil';
 import { fetchDataState } from '../../../state/fetchDataState';
 import { CheckBox } from '../style';
 import { checkedListState } from '../../../state/checkedListState';
+import {getDatabase,ref,push,child,update,remove} from 'firebase/database'
 
 const AdmissionBar = ({onToggleDropDown}) => {
     const [checked,setChecked]=useRecoilState(checkboxState)
-    //const [checked,setChecked]=useState(false)
     const [dataList,setDataList]=useRecoilState(fetchDataState)
     const [checkedList,setCheckedList]=useRecoilState(checkedListState)
+
+    const db=getDatabase();
     
     const onChange=()=>{
         setChecked(!checked)
     }
     const onSubmitApproval=()=>{
-        console.log('승인')
-        
+        if(checkedList.length===0) {
+            alert('선택한 신청이 없습니다.')
+            return
+        }
+        for (let i=0;i<checkedList.length;i++){
+            const newPostKey=push(child(ref(db),'posts')).key
+            const updates={}
+            updates[`Trees_taken/${newPostKey}`]=checkedList[i]
+            update(ref(db),updates).catch(e=>console.log(e))
+        }
+        const updates={}
+        updates[`Candidates/${dataList[0].key}`]=null
+        update(ref(db),updates)
+        setCheckedList([])
     }
-    const onSubmitDispproval=()=>{
+    const onSubmitDispproval=async ()=>{
         console.log('반려')
+        console.log(checkedList)
+
+
     }
 
     useEffect(()=>{
