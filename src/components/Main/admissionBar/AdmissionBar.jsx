@@ -1,23 +1,22 @@
-import React from 'react';
-// import arrowDropDown from '../../assets/Main/AdmissionBar/arrow-drop-down.png'
-// import arrowForward from '../../assets/Main/AdmissionBar/arrow-forward.png'
-// import arrowBack from '../../assets/Main/AdmissionBar/arrow-back.png'
-// import refresh from '../../assets/Main/AdmissionBar/refresh.png'
+import React, { useEffect, useState } from 'react';
 
 import {MdRefresh,MdOutlineChevronLeft,MdOutlineChevronRight,MdArrowDropDown} from 'react-icons/md'
 
 import {AdmissionBarDiv,AdmissionBarButton,ProcessButton} from './style'
 import { useRecoilState } from 'recoil';
-import { checkboxState } from '../../../state/checkboxState';
-import { dataListState } from '../../../state/dataListState';
+import { fetchDataState } from '../../../state/fetchDataState';
 import { CheckBox } from '../style';
+import { checkedListState } from '../../../state/checkedListState';
 
 const AdmissionBar = ({onToggleDropDown}) => {
-    const [checked,setChecked]=useRecoilState(checkboxState)
-    const [dataList,setDataList]=useRecoilState(dataListState)
+    //const [checked,setChecked]=useRecoilState(checkboxState)
+    const [checked,setChecked]=useState(false)
+    const [dataList,setDataList]=useRecoilState(fetchDataState)
+    const [checkedList,setCheckedList]=useRecoilState(checkedListState)
     
-    const onChange=(e)=>{
+    const onChange=()=>{
         setChecked(!checked)
+        
     }
     const onSubmitApproval=()=>{
         console.log('승인')
@@ -26,10 +25,22 @@ const AdmissionBar = ({onToggleDropDown}) => {
         console.log('반려')
     }
 
+    useEffect(()=>{
+        if (checked){
+            setCheckedList(dataList)
+        }else{
+            setCheckedList([])
+        }
+    },[checked, dataList, setCheckedList])
+
     return (
         <AdmissionBarDiv>
             <div>
-                <CheckBox type="checkbox" onChange={onChange} checked={checked}/>
+                <CheckBox 
+                    type="checkbox" 
+                    onChange={(e)=>onChange(e.target.checked)} 
+                    checked={checkedList.length===dataList.length}
+                />
                 <AdmissionBarButton onClick={onToggleDropDown} type='button'> 
                     <MdArrowDropDown size={18}/>
                 </AdmissionBarButton>

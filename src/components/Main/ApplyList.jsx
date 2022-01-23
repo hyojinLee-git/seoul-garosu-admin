@@ -6,42 +6,45 @@ import {MdCircle} from 'react-icons/md'
 import { useRecoilState } from 'recoil';
 import { menuState } from '../../state/menuState';
 import { checkboxState } from '../../state/checkboxState';
-import { dataListState } from '../../state/dataListState';
+import { fetchDataState } from '../../state/fetchDataState';
 import { applyModalState,clickedApplyState } from '../../state/applyModalState';
+import { checkedListState } from '../../state/checkedListState';
 //import { checkedListState } from '../../state/dataListState';
 const ApplyList = ({currentTab}) => {
-    //const [dataList,setDataList]=useRecoilState(dataListState)
-    const [dataList,setDataList]=useState([])
+    const [dataList,setDataList]=useRecoilState(fetchDataState)
+    //const [dataList,setDataList]=useState([])
     const [menu]=useRecoilState(menuState)
-    const [check,setCheck]=useRecoilState(checkboxState)
+    //const [check,setCheck]=useRecoilState(checkboxState)
     const [color,setColor]=useState('#DADADA')
+    const[checkedList,setCheckedList]=useRecoilState(checkedListState)
     const [showApplyModal,setShowApplyModal]=useRecoilState(applyModalState)
     const [clickedApplyList,setClickedApplyList]=useState(clickedApplyState)
     //const [checkedList,setCheckedList]=useRecoilState(checkedListState)
 
-    const onClickApplyItem=(treeId)=>{
-        setShowApplyModal(true)
-        setClickedApplyList(treeId)
+    //이벤트전파때매 안되는중ㅠㅠ
+    const onClickApplyItem=(e)=>{
+        //console.log(e.target)
+        e.stopPropagation()
+        //음.........어캐하징ㅎ
+        //setShowApplyModal(true)
+        //setClickedApplyList(treeId)
     }
+
     //input 값 change
-    const onChange=(treeId)=>{
+    const onChange=(checked,treeId)=>{
 
-        if(check) setCheck(false)
-        setDataList(
-            dataList.map(applyItem=>
-                    applyItem.tree_id===treeId? {...applyItem,checked:!applyItem.checked}:applyItem
-                )
-        )  
-
-    }
-    //배열에 checked 속성 추가
-    const concatChecked=(data)=>{
-        for (let i=0;i<data.length;i++){
-            data[i]['checked']=false
+        if(checked){
+            const checkedData=dataList.filter(el=>el.tree_id===treeId)
+            setCheckedList([...checkedList,checkedData[0]])
+        }else{
+            setCheckedList(
+                checkedList.filter(el=>el.tree_id!==treeId)
+            )
         }
-        return data
-    }
+        console.log(checked)
+        console.log(checkedList)
 
+    }
     
 
     //get data from firebase
@@ -54,10 +57,8 @@ const ApplyList = ({currentTab}) => {
                 if(res.exists()){
 
                     const data=Object.values(res.val())
-
-                    const newData=concatChecked(data)
-                    console.log(newData)
-                    setDataList(newData)
+                    console.log(data)
+                    setDataList(data)
                     setColor('#6AD39F')
                 }
             })
@@ -66,17 +67,13 @@ const ApplyList = ({currentTab}) => {
             get(child(dbRef,`/Candidates`))
             .then(res=>{
                 if(res.exists()){
-                    
-
-
 
                     const data=Object.values(res.val()).filter((fetchDataItem)=>currentTab===fetchDataItem.unit)
-                    const newData=concatChecked(data)
-                    console.log(newData)
-                    setDataList(newData)
+                    console.log(data)
+                    setDataList(data)
                     setColor('#DADADA')
-                    console.log(res)
-                    console.log('keys',Object.keys(res.val()))
+                    // console.log(res)
+                    // console.log('keys',Object.keys(res.val()))
                 }
             })
             .catch(error=>console.log(error))
@@ -91,57 +88,21 @@ const ApplyList = ({currentTab}) => {
     useEffect( ()=>{
         //console.log(authService.currentUser.uid)
         fetchData()
-
-
-        // if (checked){
-        //     dataList.map(applyItem=>applyItem.checked=true)
+        // return()=>{
+        //     setCheck(false)
         // }
-        // else{
-        //     dataList.map(applyItem=>applyItem.checked=false)
-        // }
-        // console.log(dataList)
-
-
-
-
-
-
-        return()=>{
-            setCheck(false)
-        }
-    },[ fetchData, setCheck])
-
-    //모든 dataList checked 속성 바꾸기
-    useEffect(()=>{
-        if (check){
-            dataList.map(applyItem=>applyItem.checked=true)
-        }
-        else{
-            dataList.map(applyItem=>applyItem.checked=false)
-        }
-        
-        console.log(check)
-        console.log(dataList[0]?.checked)
-    },[ dataList, check])
-
-    // useEffect(()=>{
-    //     if (checked){
-    //         const checkedList=[]
-    //         dataList.map((el)=>checkedList.push(el))
-
-    //     }
-    // },[])
+    },[ fetchData])
 
     return (
 
             <ApplyListUl>
                 {
                     dataList?.map((applyItem)=>(
-                       <li key={applyItem.tree_id} onClick={()=>onClickApplyItem(applyItem.tree_id)}>
+                       <li key={applyItem.tree_id} onClick={onClickApplyItem}>
                            <CheckBox 
                                 type="checkbox" 
-                                checked={applyItem.checked} 
-                                onChange={()=>onChange(applyItem.tree_id)}
+                                checked={checkedList.includes(applyItem)} 
+                                onChange={(e)=>onChange(e.target.checked,applyItem.tree_id)}
                             />
                            <span>
                                <MdCircle size={24} color={color}/>

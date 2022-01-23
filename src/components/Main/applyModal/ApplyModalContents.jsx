@@ -8,9 +8,12 @@ import {MdClear} from 'react-icons/md'
 
 const ApplyModalContents = () => {
     const [showApplyModal,setShowApplyModal]=useRecoilState(applyModalState)
-    const [clickedApply]=useRecoilState(clickedApplyState)
+    //const [clickedApply]=useRecoilState(clickedApplyState)
     const [clickedApplyItem,setClickedApplyItem]=useState({})
+
     const {name, date,location, tree_location, tree_type}=clickedApplyItem
+    
+
 
     //close modal
     const closeApplyModal=()=>{
