@@ -9,19 +9,19 @@ const Menu = () => {
     const menuList=[
         {
             title:'홈',
-            link:'/1',
+            link:'/home',
         },{
             title:'입양관리',
-            link:'/main',
+            link:'/adopt',
         },{
             title:'목표관리',
-            link:'/2',
+            link:'/goal',
         },{
             title:'나무관리',
             link:'/tree',
         },{
             title:'교육관리',
-            link:'/4',
+            link:'/education',
         },{
             title:'봉사활동관리',
             link:'/5',

@@ -9,7 +9,6 @@ const Contents = () => {
             <Routes>
                 <Route path="adopt" element={<Adopt/>}/>
                 <Route path="tree" element={<Tree/>}/>
-                {/* <Route path="approval" element={<MainContents/>}/> */}
             </Routes>
         </>
     );
