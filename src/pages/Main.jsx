@@ -1,12 +1,12 @@
 import React from 'react';
-import MainContents from '../components/Main/MainContents';
-import SideNavigationBar from '../components/SNB/SideNavigationBar';
-import GlobalNavigationBar from '../components/GNB/GlobalNavigationBar';
+import SideNavigationBar from '../layouts/SNB/SideNavigationBar';
+import GlobalNavigationBar from '../layouts/GNB/GlobalNavigationBar';
 import { authService } from '../utils/firebase';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Routes,Route } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import ApplyModal from '../components/Main/applyModal/ApplyModal';
+import ApplyModal from '../components/adopt/applyModal/ApplyModal';
 import { applyModalState } from '../state/applyModalState';
+import Contents from '../layouts/contents/Contents';
 const Main = () => {
     const [showApplyModal]=useRecoilState(applyModalState)
 
@@ -19,7 +19,7 @@ const Main = () => {
             <GlobalNavigationBar />
             <div style={{ display: 'flex' }}>
                 <SideNavigationBar />
-                <MainContents/>
+                <Contents/>
             </div>
             {showApplyModal && <ApplyModal/>}
         </>

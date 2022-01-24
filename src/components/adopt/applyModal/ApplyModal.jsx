@@ -6,7 +6,6 @@ import { useRecoilState } from 'recoil';
 
 const ApplyModal = () => {
     const [showApplyModal,setShowApplyModal]=useRecoilState(applyModalState)
-    //modal 닫기버튼
 
 
     const onCloseApplyModal=(e)=>{

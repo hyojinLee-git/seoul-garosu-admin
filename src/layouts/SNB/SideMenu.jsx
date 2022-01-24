@@ -14,7 +14,9 @@ const SideMenu = () => {
     //route에 따라 menuList 반환
     const setMenuListFunction=(route)=>{
         switch(route){
-            case '/main':
+            case '/adopt/all':
+                return mainMenuList
+            case '/adopt':
                 return mainMenuList
             case '/tree':
                 return treeMenuList

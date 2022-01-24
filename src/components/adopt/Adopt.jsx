@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import AdmissionBar from './admissionBar/AdmissionBar';
 import ApplyList from './ApplyList';
 import ClassificationBar from './classificationBar/ClassificationBar';
-import Pagination from './pagination/Pagination';
+import Paging from './pagination/Paging';
 import {MainDiv} from './style'
 import DropDown from './dropDown/DropDown'
 import { useRecoilState } from 'recoil';
 import { fetchDataState } from '../../state/fetchDataState';
-const MainContents = () => {
+const Adopt = () => {
     const [showDropDown,setShowDropDown]=useState(false)
     const [currentTab,setCurrentTab]=useState("개인")
     const [dataList,setDataList]=useRecoilState(fetchDataState)
@@ -36,9 +36,9 @@ const MainContents = () => {
                 <ApplyList currentTab={currentTab}/>
             </form>
             
-            <Pagination/>
+            <Paging/>
         </MainDiv>
     );
 };
 
-export default MainContents;
+export default Adopt;

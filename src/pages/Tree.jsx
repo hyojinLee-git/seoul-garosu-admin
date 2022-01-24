@@ -1,7 +1,7 @@
 import React from 'react';
 import MainContents from '../components/Tree/MainContents';
-import SideNavigationBar from '../components/SNB/SideNavigationBar';
-import GlobalNavigationBar from '../components/GNB/GlobalNavigationBar';
+import SideNavigationBar from '../layouts/SNB/SideNavigationBar';
+import GlobalNavigationBar from '../layouts/GNB/GlobalNavigationBar';
 
 
 
