@@ -6,13 +6,16 @@ import { useRecoilState } from 'recoil';
 
 const ApplyModal = () => {
     const [showApplyModal,setShowApplyModal]=useRecoilState(applyModalState)
+    //modal 닫기버튼
+
+
     const onCloseApplyModal=(e)=>{
-        e.stopPropagation()
+        if(!e.target.classList.contains('bg'))return
         setShowApplyModal(false)
     }
     return (
-        <ApplyModalDiv onClick={(e)=>onCloseApplyModal(e)}>
-            <ApplyListModalContents/>
+        <ApplyModalDiv className='bg' onClick={(e)=>onCloseApplyModal(e)}>
+            <ApplyListModalContents onCloseApplyModal={onCloseApplyModal}/>
         </ApplyModalDiv>
 
     );
