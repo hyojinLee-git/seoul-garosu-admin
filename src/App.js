@@ -14,6 +14,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/main" element={<Main />} />
         <Route path="/tree" element={<Tree />} />
+        {/* <Route path="/main/*">
+          <Route path="all" element={<Main />} />
+        </Route> */}
       </Routes>
     </div>
   );

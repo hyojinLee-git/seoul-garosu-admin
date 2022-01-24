@@ -14,13 +14,13 @@ export const SideMenuUl=styled.ul`
     & button{
         display:inline-flex;
         background:none;
+        color:black;
         border:none;
         outline: none;
-        cursor: pointer;
-        color:black;
         text-decoration: none;
         align-items: center;
         height: 50px;
+        cursor: pointer;
     }
     & span{
         margin-left: 5px;

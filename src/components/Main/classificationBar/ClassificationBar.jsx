@@ -39,4 +39,4 @@ const ClassificationBar = ({onChangeTab,currentTab}) => {
     );
 };
 
-export default ClassificationBar;
+export default React.memo(ClassificationBar);

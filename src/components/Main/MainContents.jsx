@@ -5,13 +5,17 @@ import ClassificationBar from './classificationBar/ClassificationBar';
 import Pagination from './pagination/Pagination';
 import {MainDiv} from './style'
 import DropDown from './dropDown/DropDown'
+import { useRecoilState } from 'recoil';
+import { fetchDataState } from '../../state/fetchDataState';
 const MainContents = () => {
     const [showDropDown,setShowDropDown]=useState(false)
     const [currentTab,setCurrentTab]=useState("개인")
+    const [dataList,setDataList]=useRecoilState(fetchDataState)
 
     //개인, 단체, 학교 tab 바꿔주기
     const onChangeTab=(e)=>{
         console.log(e.currentTarget.textContent)
+        setDataList([])
         setCurrentTab(e.currentTarget.textContent)
     }
 

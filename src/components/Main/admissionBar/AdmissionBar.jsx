@@ -19,6 +19,7 @@ const AdmissionBar = ({onToggleDropDown}) => {
     const onChange=()=>{
         setChecked(!checked)
     }
+    //승인버튼
     const onSubmitApproval=()=>{
         if(checkedList.length===0) {
             alert('선택한 신청이 없습니다.')
@@ -35,11 +36,16 @@ const AdmissionBar = ({onToggleDropDown}) => {
         update(ref(db),updates)
         setCheckedList([])
     }
+    //반려버튼
     const onSubmitDispproval=async ()=>{
         console.log('반려')
         console.log(checkedList)
 
 
+    }
+    
+    const onRefresh=()=>{
+        window.location.reload()
     }
 
     useEffect(()=>{
@@ -48,12 +54,14 @@ const AdmissionBar = ({onToggleDropDown}) => {
         }else{
             setCheckedList([])
         }
+
     },[checked, dataList, setCheckedList])
 
     useEffect(()=>{
-        if(dataList.length===checkedList.length){
+        if(dataList.length===checkedList.length&&dataList.length!==0 && checkedList.length!==0){
             setChecked(true)
         }
+
     },[checkedList.length, dataList.length, setChecked])
 
     return (
@@ -62,7 +70,6 @@ const AdmissionBar = ({onToggleDropDown}) => {
                 <CheckBox 
                     type="checkbox" 
                     onChange={onChange}
-                    //onChange={(e)=>onChange(e.target.checked)} 
                     checked={checkedList.length===dataList.length}
                 />
                 <AdmissionBarButton onClick={onToggleDropDown} type='button'> 
@@ -76,7 +83,7 @@ const AdmissionBar = ({onToggleDropDown}) => {
                 <ProcessButton type='button' className={"admission-btn"} color="#DADADA">대기</ProcessButton>
             </div>
             <div>
-                <AdmissionBarButton type='button'>
+                <AdmissionBarButton type='button' onClick={onRefresh}>
                     <MdRefresh size={24} color='rgba(0, 0, 0, 0.54)'/>
                 </AdmissionBarButton>
                 <AdmissionBarButton type='button'>
@@ -90,4 +97,4 @@ const AdmissionBar = ({onToggleDropDown}) => {
     );
 };
 
-export default AdmissionBar;
+export default React.memo(AdmissionBar);

@@ -14,4 +14,4 @@ const GlobalNavigationBar = () => {
     );
 };
 
-export default GlobalNavigationBar;
+export default React.memo(GlobalNavigationBar);

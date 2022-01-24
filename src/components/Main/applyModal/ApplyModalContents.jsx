@@ -5,15 +5,17 @@ import { useRecoilState } from 'recoil';
 import { clickedApplyState } from '../../../state/applyModalState';
 import {getDatabase,ref,child,get, set} from 'firebase/database'
 import {MdClear} from 'react-icons/md'
+import { menuState } from '../../../state/menuState';
 
 const ApplyModalContents = () => {
     const [showApplyModal,setShowApplyModal]=useRecoilState(applyModalState)
+    //key
     const [clickedApply]=useRecoilState(clickedApplyState)
+    //data 정보
     const [clickedApplyItem,setClickedApplyItem]=useState({})
-
     const {name, date,location, tree_location, tree_type}=clickedApplyItem
-    
-
+    //선택한 메뉴(임시)
+    const [currentMenu]=useRecoilState(menuState)
 
     //close modal
     const closeApplyModal=()=>{
@@ -23,12 +25,27 @@ const ApplyModalContents = () => {
     //data loading
     useEffect(()=>{
         const dbref=ref(getDatabase())
-        get(child(dbref,`Candidates/${clickedApply}`))
-        .then((res)=>{
-            setClickedApplyItem(res.val())
-        })
-        .catch(e=>console.log(e))
-    },[clickedApply])
+        if(currentMenu==='전체 입양신청'){
+            return
+        }else if(currentMenu==='승인한 입양신청'){
+            get(child(dbref,`Trees_taken/${clickedApply}`))
+            .then((res)=>{
+                setClickedApplyItem(res.val())
+            })
+            .catch(e=>console.log(e))
+        }else if (currentMenu==='반려한 입양신청'){
+            return
+        }else if(currentMenu==='대기중인 입양신청'){
+            get(child(dbref,`Candidates/${clickedApply}`))
+            .then((res)=>{
+                setClickedApplyItem(res.val())
+            })
+            .catch(e=>console.log(e))
+        }else{
+            return
+        }
+
+    },[clickedApply, currentMenu])
 
     return (
         <ApplyModalContentsWrapper>
@@ -66,4 +83,4 @@ const ApplyModalContents = () => {
     );
 };
 
-export default ApplyModalContents;
+export default React.memo(ApplyModalContents);

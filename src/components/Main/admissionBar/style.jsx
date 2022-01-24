@@ -18,6 +18,12 @@ export const AdmissionBarButton=styled.button`
         outline: none;
         border:none;
         background: none;
+        cursor: pointer;
+        & *:active{
+            color:#44AB9A;
+        }
+
+
 `
 
 export const ProcessButton=styled.button`

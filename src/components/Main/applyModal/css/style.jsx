@@ -14,7 +14,7 @@ export const ApplyModalDiv=styled.div`
 
 export const ApplyModalContentsWrapper=styled.div`
     width: 920px;
-    height: 840px;
+    height: 82vh;
     background: white;
     padding:0 20px;
     box-sizing: border-box;
@@ -23,7 +23,7 @@ export const ApplyModalContentsWrapper=styled.div`
 
 export const ApplyModalContentsHeader=styled.div`
     width: 100%;
-    height: 10%;
+    height: 10vh;
     border-bottom: 1px solid #828282;
     display: flex;
     align-items: center;
@@ -44,7 +44,7 @@ export const ApplyModalContentsHeader=styled.div`
 
 export const ApplyModalContentsMeta=styled.div`
     width: 100%;
-    height: 10%;
+    height: 10vh;
     font-size:25px ;
     color:#828282;
     display: flex;
@@ -68,7 +68,7 @@ export const Button=styled.button`
 `
 export const ApplyModalContentsBody=styled.div`
     border:1px solid #828282;
-    height: 640px;
+    height: 55vh;
     width: 100%;
     border-radius: 10px;
     padding:0 40px ;

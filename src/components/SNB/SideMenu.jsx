@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {SideMenuUl} from './style'
-import { useLocation} from 'react-router-dom'
+import { Link, useLocation} from 'react-router-dom'
 import {treeMenuList,mainMenuList} from './menuList'
 import { useRecoilState } from 'recoil';
 import { menuState } from '../../state/menuState';
@@ -34,16 +34,19 @@ const SideMenu = () => {
 
         //refactoring 필요
         setMenuList(setMenuListFunction(route))
+
         setCurrentMenu(menuList[0].title)
 
+        
+        
+
     },[pathname, route, setRoute, setCurrentMenu, menuList])
-    
     return (
         <SideMenuUl>
             {
                 menuList?.map(menuItem=>(
                     <li key={menuItem.title} >
-                        <button onClick={onClickMenu} style={{color:currentMenu===menuItem.title?'#44AB9A':''}}>
+                        <button to={menuItem.link} onClick={onClickMenu} style={{color:currentMenu===menuItem.title?'#44AB9A':''}}>
                             {menuItem.icon}
                             <span>{menuItem.title}</span>
                         </button>
