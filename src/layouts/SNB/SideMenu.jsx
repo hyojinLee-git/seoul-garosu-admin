@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {SideMenuUl} from './style'
 import { Link, useLocation} from 'react-router-dom'
-import {treeMenuList,mainMenuList} from './menuList'
+import {treeMenuList,mainMenuList,educationMenuList} from './menuList'
 import { useRecoilState } from 'recoil';
 import { menuState } from '../../state/menuState';
 
@@ -14,10 +14,10 @@ const SideMenu = () => {
     //route에 따라 menuList 반환
     const setMenuListFunction=(route)=>{
         switch(route){
-            case '/adopt/all':
-                return mainMenuList
             case '/adopt':
                 return mainMenuList
+            case '/education':
+                return educationMenuList
             case '/tree':
                 return treeMenuList
             default:

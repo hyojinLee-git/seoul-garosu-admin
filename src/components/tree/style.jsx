@@ -60,7 +60,7 @@ export const MapWrapper=styled.div`
 export const ContentsWrapper=styled.div`
     border:2px solid #EDEAE9;
     flex:1;
-    height:calc(90vh*0.15) ;
+    height:calc(90vh*0.2) ;
     margin-left: ${props=>props.margin||''};
     padding:0 30px;
     font-size: 18px;

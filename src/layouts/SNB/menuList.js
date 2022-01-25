@@ -42,3 +42,12 @@ export const treeMenuList = [
     link: '/tree/data',
   },
 ];
+
+export const educationMenuList = [
+  {
+    title: '교육 관리',
+  },
+  {
+    title: '공지사항 관리',
+  },
+];
