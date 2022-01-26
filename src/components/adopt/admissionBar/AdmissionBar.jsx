@@ -7,14 +7,16 @@ import { useRecoilState } from 'recoil';
 import { fetchDataState } from '../../../state/fetchDataState';
 import { CheckBox } from '../style';
 import { checkedListState } from '../../../state/checkedListState';
-import {getDatabase,ref,push,child,update,remove} from 'firebase/database'
+import { tokenState } from '../../../state/tokenState';
 
 const AdmissionBar = ({onToggleDropDown}) => {
     const [checked,setChecked]=useRecoilState(checkboxState)
     const [dataList,setDataList]=useRecoilState(fetchDataState)
     const [checkedList,setCheckedList]=useRecoilState(checkedListState)
-
-    const db=getDatabase();
+    //생각해보니 tokenState로 써도 될듯
+    const [token]=useRecoilState(tokenState)
+    const dbURL=process.env.REACT_APP_DATABASE_URL;
+    
     
     const onChange=()=>{
         setChecked(!checked)
@@ -25,22 +27,29 @@ const AdmissionBar = ({onToggleDropDown}) => {
             alert('선택한 신청이 없습니다.')
             return
         }
-        for (let i=0;i<checkedList.length;i++){
-            const newPostKey=push(child(ref(db),'posts')).key
-            const updates={}
-            updates[`Trees_taken/${newPostKey}`]=checkedList[i]
-            update(ref(db),updates).catch(e=>console.log(e))
-        }
-        const updates={}
-        updates[`Candidates/${dataList[0].key}`]=null
-        update(ref(db),updates)
-        setCheckedList([])
+        //승인or 반려 테이블의 데이터 있으면 return
+        
+        console.log(checkedList)
+        
+        checkedList.forEach(checkedListItem=>{
+            axios.post(`${dbURL}/Trees_taken.json?auth=${token}`,checkedListItem)
+            .then(res=>console.log(res))
+            .catch(e=>console.log(e))
+            
+        })
+
+
+
     }
     //반려버튼
     const onSubmitDispproval=async ()=>{
         console.log('반려')
         console.log(checkedList)
-
+        // try{
+        //     await axios.post(`https://garosero-70ff7-default-rtdb.firebaseio.com/Candidates.json?auth=${token}`,checkedList[0])
+        // }catch(e){
+        //     console.log(e)
+        // }
 
     }
     

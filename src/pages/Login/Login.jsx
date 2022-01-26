@@ -37,7 +37,7 @@ const Login = () => {
             await signInWithEmailAndPassword(authService,id,password)
             setError(false)
             //main으로 이동
-            navigate('/adopt')
+            navigate('/adopt/all/1')
         }catch(e){
             if (e.code==='auth/user-not-found'){
                 setError('허가되지 않은 사용자입니다.')

@@ -7,6 +7,7 @@ import {MainDiv} from './style'
 import DropDown from './dropDown/DropDown'
 import { useRecoilState } from 'recoil';
 import { fetchDataState } from '../../state/fetchDataState';
+import { Routes } from 'react-router-dom';
 const Adopt = () => {
     const [showDropDown,setShowDropDown]=useState(false)
     const [currentTab,setCurrentTab]=useState("개인")

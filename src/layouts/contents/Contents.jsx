@@ -8,7 +8,7 @@ const Contents = () => {
     return (
         <>
             <Routes>
-                <Route path="adopt" element={<Adopt/>}/>
+                <Route path="adopt/:sideMenu/:page" element={<Adopt/>}/>
                 <Route path="tree" element={<Tree/>}/>
                 <Route path="education" element={<Education/>}/>
             </Routes>

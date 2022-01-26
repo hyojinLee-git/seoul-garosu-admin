@@ -11,7 +11,7 @@ export const SideMenuUl=styled.ul`
     margin:0;
     padding: 0;
     list-style: none;
-    & button{
+    & a{
         display:inline-flex;
         background:none;
         color:black;
