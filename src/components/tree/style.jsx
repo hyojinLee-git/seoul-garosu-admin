@@ -51,7 +51,7 @@ export const Wrapper=styled.div`
 
 
 export const MapWrapper=styled.div`
-        border:1px solid red;
+        /* border:1px solid red; */
     box-sizing: border-box;
     height: calc(90vh*0.5);
     margin: 15px 0;
