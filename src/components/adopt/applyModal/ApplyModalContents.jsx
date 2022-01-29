@@ -6,8 +6,11 @@ import { clickedApplyState } from '../../../state/applyModalState';
 import {getDatabase,ref,child,get, set} from 'firebase/database'
 import {MdClear} from 'react-icons/md'
 import { menuState } from '../../../state/menuState';
+import axios from 'axios';
+import { tokenState } from '../../../state/tokenState';
 
 const ApplyModalContents = () => {
+    const [loading,setLoading]=useState(false)
     const [showApplyModal,setShowApplyModal]=useRecoilState(applyModalState)
     //key
     const [clickedApply]=useRecoilState(clickedApplyState)
@@ -16,21 +19,37 @@ const ApplyModalContents = () => {
     const {name, date,location, tree_location, tree_type}=clickedApplyItem
     //선택한 메뉴(임시)
     const [currentMenu]=useRecoilState(menuState)
+    const dbURL=process.env.REACT_APP_DATABASE_URL;
+    const [token]=useRecoilState(tokenState)
 
     //close modal
     const closeApplyModal=()=>{
         setShowApplyModal(false)
     }
 
-    //data loading
+    //data fetching
     useEffect(()=>{
         const dbref=ref(getDatabase())
+        setLoading(true)
         if(currentMenu==='전체 입양신청'){
+            const promise1=axios.get(`${dbURL}/Candidates/${clickedApply}.json?auth=${token}`)
+            const promise2=axios.get(`${dbURL}/Trees_taken/${clickedApply}.json?auth=${token}`)
+
+            Promise.all([promise1,promise2])
+            .then(res=>{
+
+                if(res[0].data) setClickedApplyItem(res[0].data)
+                if(res[1].data) setClickedApplyItem(res[1].data)
+                setLoading(false)
+            })
+            .catch(e=>console.log(e))
+
             return
         }else if(currentMenu==='승인한 입양신청'){
             get(child(dbref,`Trees_taken/${clickedApply}`))
             .then((res)=>{
                 setClickedApplyItem(res.val())
+                setLoading(false)
             })
             .catch(e=>console.log(e))
         }else if (currentMenu==='반려한 입양신청'){
@@ -39,13 +58,16 @@ const ApplyModalContents = () => {
             get(child(dbref,`Candidates/${clickedApply}`))
             .then((res)=>{
                 setClickedApplyItem(res.val())
+                setLoading(false)
             })
             .catch(e=>console.log(e))
         }else{
             return
         }
 
-    },[clickedApply, currentMenu])
+    },[clickedApply, currentMenu, dbURL, token])
+    
+    if(loading) return <ApplyModalContentsWrapper>로딩중...</ApplyModalContentsWrapper>
 
     return (
         <ApplyModalContentsWrapper>
