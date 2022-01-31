@@ -41,14 +41,14 @@ const Education = () => {
             <h2>교육 관리</h2>
             <ControlBar>
                 <div>
-                    <Button color="white" border="3px solid" width="180px">
+                    <Button bgColor="white" border="3px solid" width="180px" className='active'>
                         업로드 날짜
                     </Button>
-                    <Button color="white" border="3px solid">
+                    <Button bgColor="white" border="3px solid">
                         카테고리
                     </Button>
                 </div>
-                <Button color="#669AFF" borderRadius="5px">추가하기</Button>
+                <Button bgColor="#669AFF" borderRadius="5px" color='white'>추가하기</Button>
             </ControlBar>
             <ListHeader>
                 <span>컨텐츠 제목</span>

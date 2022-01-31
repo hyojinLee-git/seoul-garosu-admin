@@ -13,7 +13,8 @@ export const ControlBar=styled.div`
     justify-content: space-between;
 `
 export const Button=styled.button`
-    background: ${props=>props.color};
+    background: ${props=>props.bgColor};
+    color:${props=>props.color};
     border:none;
     border-bottom: ${props=>props.border||'none'};
     outline: none;
@@ -23,6 +24,9 @@ export const Button=styled.button`
     width:180px;
     border-radius: ${props=>props.borderRadius};
     margin-right: 10px;
+    &.active{
+        color:#669AFF
+    }
     
 `
 export const ListHeader=styled.div`
