@@ -30,63 +30,72 @@ export const Button=styled.button`
     
 `
 export const ListHeader=styled.div`
-
+    display: grid;
+    grid-template-columns: 4fr 1fr 1fr 1.5fr;
+    /* border:1px solid red; */
     height: 45px;
     color:#848484;
-    display: flex;
-    align-items: center;
-    padding: 3px;
+    margin:10px 0;
+    padding: 0 10px;
     box-sizing: border-box;
     &>*{
         margin-right: 5px;
+        display: flex;
+        align-items: center;
     }
-    & *:nth-child(1){flex:4}
-    & *:nth-child(2){flex:1}
-    & *:nth-child(3){flex:1}
-    & *:nth-child(4){flex:1.5}
+    &>*:nth-child(3){
+        margin:0 15px;
+        justify-content: center;
+    }
+
 `
 export const Ul=styled.ul`
     padding: 0;
     list-style: none;
-    
+    /* border:1px solid red;    */
+    padding:0 10px;
+    margin:0
 `
+
 export const Li=styled.li`
-    display:flex;
-    padding:3px;
-    /* border:1px solid red; */
-    align-items: center;
-    box-sizing: border-box;
+    display: grid;
+    grid-template-columns:1fr 3fr 1fr 1fr 1fr 0.5fr;
     height: 80px;
-    &:hover{
-        background: #F3F4F9;
+
+    box-sizing: border-box;
+    /* border:1px solid red; */
+    margin-bottom: 5px;
+    &>*{
+        display: flex;
+        align-items: center;
+        /* border:1px solid green; */
+    }
+    &>*:nth-child(2){
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+    &>*:nth-child(3){
+        font-weight: bold;
+    }
+    &>*:nth-child(4){
+        height: 40px;
+        background-color: #9EE7E3;
+        justify-content: center;
+        border-radius: 20px;
+        margin:0 15px;
+        margin-top: 20px;
+        font-weight: bold;
+    }
+    &>*:nth-child(6){
+        justify-content: center;
+        background: none;
+        border:none;
+        cursor: pointer;
     }
 
-    &>*{
-        /* border:1px solid green; */
-        margin-right: 5px;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    .meta-title{
+        margin:10px 0;
         
     }
-    & *:nth-child(1){flex:1}
-    & *:nth-child(2){
-        flex:3;
-        flex-direction:column;
-        align-items:start;
-        
-    }
-    & *:nth-child(3){flex:1}
-    & *:nth-child(4){
-        flex:1;
-        display: inline-block;
-        width:160px;
-        height:40px;
-        background:#9EE7E3;
-        border-radius:20px;
-        text-align:center;
-    }
-    & *:nth-child(5){flex:1}
-    & *:nth-child(6){flex:0.5}
 `

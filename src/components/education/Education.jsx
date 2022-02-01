@@ -1,41 +1,51 @@
 import React from 'react';
-import {EducationContainer,ControlBar,Button,ListHeader, Ul, Li} from './style'
+import {EducationContainer,ControlBar,Button,ListHeader, Ul, Li,ContentsWrapper} from './style'
 import {MdCreate} from 'react-icons/md'
+import { useRecoilState } from 'recoil';
+import { uploadModalState } from '../../state/education/uploadModalState';
+
+const dataList=[
+    {
+        title:"제목",
+        contents:"내용내용",
+        category:'식물관리',
+        date:'2022.01.23',
+        id:1
+    },{
+        title:"제목",
+        contents:"내용내용",
+        category:'식물관리',
+        date:'2022.01.23',
+        id:2
+    },{
+        title:"제목",
+        contents:"내용내용",
+        category:'식물관리',
+        date:'2022.01.23',
+        id:3
+    },{
+        title:"제목",
+        contents:"내용내용",
+        category:'식물관리',
+        date:'2022.01.23',
+        id:4
+    },{
+        title:"제목",
+        contents:"내용내용",
+        category:'식물관리',
+        date:'2022.01.23',
+        id:5
+    },
+]
 
 const Education = () => {
-    const dataList=[
-        {
-            title:"제목",
-            contents:"내용내용",
-            category:'식물관리',
-            date:'2022.01.23',
-            id:1
-        },{
-            title:"제목",
-            contents:"내용내용",
-            category:'식물관리',
-            date:'2022.01.23',
-            id:2
-        },{
-            title:"제목",
-            contents:"내용내용",
-            category:'식물관리',
-            date:'2022.01.23',
-            id:3
-        },{
-            title:"제목",
-            contents:"내용내용",
-            category:'식물관리',
-            date:'2022.01.23',
-            id:4
-        },{
-            title:"제목",
-            contents:"내용내용",
-            category:'식물관리',
-            date:'2022.01.23',
-            id:5
-        },
-    ]
+
+    const [,setShowUploadModal]=useRecoilState(uploadModalState)
+
+    const showUploadModal=()=>{
+        setShowUploadModal(true)
+    }
+
     return (
         <EducationContainer>
             <h2>교육 관리</h2>
@@ -48,7 +58,9 @@ const Education = () => {
                         카테고리
                     </Button>
                 </div>
-                <Button bgColor="#669AFF" borderRadius="5px" color='white'>추가하기</Button>
+                <Button bgColor="#669AFF" borderRadius="5px" color='white'  onClick={showUploadModal}>
+                    추가하기
+                </Button>
             </ControlBar>
             <ListHeader>
                 <span>컨텐츠 제목</span>
@@ -61,8 +73,8 @@ const Education = () => {
                     dataList.map(el=>(
                         <Li key={el.id}>
                             <div style={{width:"100px",height:"75px",background:'#C4C4C4'}}>thumbnail</div>
-                            <div className='meta'>
-                                <h3>
+                            <div>
+                                <h3 className='meta-title'>
                                     {el.title}
                                 </h3>
                                 <div>
@@ -87,6 +99,7 @@ const Education = () => {
                     ))
                 }
             </Ul>
+
         </EducationContainer>
     );
 };
