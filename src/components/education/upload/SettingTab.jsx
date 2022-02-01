@@ -1,7 +1,11 @@
 import React from 'react';
 import {UploadModalBodyWrapper,Wrapper} from './style'
 
-const SettingTab = () => {
+const SettingTab = ({setFile,setFileName}) => {
+    const onChange=(e)=>{
+        setFileName(e.target.value)
+        setFile(e.target.files[0])
+    }
     return (
         <UploadModalBodyWrapper>
             <div style={{display:"flex",justifyContent:"space-between"}}>
@@ -29,6 +33,13 @@ const SettingTab = () => {
 
             <Wrapper height="65%">
                 <label>미리보기 이미지</label>
+                <div style={{display:"flex"}}>
+                    <div style={{height:"80%",width:"300px",background:"gray"}}>thumbnail</div>
+                    <div>
+                        <input type="file" required onChange={onChange}/>
+                    </div>
+                </div>
+                
             </Wrapper>
         </UploadModalBodyWrapper>
     );
