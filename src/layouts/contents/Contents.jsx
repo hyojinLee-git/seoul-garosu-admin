@@ -8,9 +8,9 @@ const Contents = () => {
     return (
         <>
             <Routes>
-                <Route path="adopt/:sideMenu/:page" element={<Adopt/>}/>
-                <Route path="tree" element={<Tree/>}/>
-                <Route path="education" element={<Education/>}/>
+                <Route path="adopt/:sideMenu" element={<Adopt/>}/>
+                <Route path="tree/:sideMenu" element={<Tree/>}/>
+                <Route path="education/:sideMenu" element={<Education/>}/>
             </Routes>
         </>
     );

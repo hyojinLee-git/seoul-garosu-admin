@@ -12,16 +12,16 @@ const Menu = () => {
             link:'/home',
         },{
             title:'입양관리',
-            link:'/adopt',
+            link:'/adopt/all',
         },{
             title:'목표관리',
             link:'/goal',
         },{
             title:'나무관리',
-            link:'/tree',
+            link:'/tree/map',
         },{
             title:'교육관리',
-            link:'/education',
+            link:'/education/education',
         },{
             title:'봉사활동관리',
             link:'/5',

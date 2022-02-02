@@ -3,16 +3,20 @@ import person from '../../assets/GNB/person.png'
 import { authService } from '../../utils/firebase';
 import {AsideDiv} from './style'
 import {signOut } from 'firebase/auth'
+import { useRecoilState } from 'recoil';
+import { loginState } from '../../state/login/loginState';
 
 const AsideMenu = () => {
+    const [,setLogin]=useRecoilState(loginState)
     //logout function
     const onLogout=()=>{
-        // try{
-        //     signOut(authService)
-        //     console.log('logout')
-        // }catch(e){
-        //     console.log(e)
-        // }
+        try{
+            signOut(authService)
+            setLogin('')
+            console.log('logout')
+        }catch(e){
+            console.log(e)
+        }
         
     }
     return (
