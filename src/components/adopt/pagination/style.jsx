@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const PaginationDiv=styled.div`
     position: absolute;
     bottom: 0;
-    width: 100%;
+    width: 98%;
     height: 8vh;
     display: flex;
     align-items: center;
@@ -13,6 +13,7 @@ export const PaginationDiv=styled.div`
         display: flex; 
         justify-content: center; 
         margin-top: 15px; 
+
     } 
     & ul { 
         list-style: none; 
