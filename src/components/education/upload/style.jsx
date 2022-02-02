@@ -64,6 +64,7 @@ export const Button=styled.button`
     outline: none;
     &.active{
         border-bottom: 3px solid #669AFF;
+        color:#669AFF
     }
 `
 export const UploadModalBodyWrapper=styled.div`

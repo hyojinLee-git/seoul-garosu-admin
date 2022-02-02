@@ -1,7 +1,8 @@
 import React from 'react';
 import {UploadModalBodyWrapper,Wrapper} from './style'
 
-const InfoTab = () => {
+const InfoTab = ({metaData,onChangeMetaData}) => {
+    const {title,description}=metaData
     return (
         <UploadModalBodyWrapper>
             <Wrapper height="30%">
@@ -9,7 +10,7 @@ const InfoTab = () => {
                     제목
                 </label>
                 <br/>
-                <textarea placeholder='해당 컨텐츠의 제목을 입력해주세요 '/>
+                <textarea name="title" value={title} onChange={onChangeMetaData} placeholder='해당 컨텐츠의 제목을 입력해주세요 '/>
             </Wrapper>
 
             <Wrapper height="60%">
@@ -17,7 +18,7 @@ const InfoTab = () => {
                     내용
                 </label>
                 <br/>
-                <textarea placeholder='컨텐츠 시청자에게 교육 내용에 대해 알려주세요 '/>
+                <textarea name="description" value={description} onChange={onChangeMetaData} placeholder='컨텐츠 시청자에게 교육 내용에 대해 알려주세요 '/>
             </Wrapper>
             
         </UploadModalBodyWrapper>
