@@ -1,40 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import {ListHeader, Ul, Li} from './style'
-import {MdCreate} from 'react-icons/md'
-import axios from 'axios';
+import {MdCreate,MdClose} from 'react-icons/md'
 import { useRecoilState } from 'recoil';
-import { tokenState } from '../../../state/tokenState';
 import { educationListState } from '../../../state/education/educationListState';
+import DropDown from './DropDown';
+import Paging from '../../adopt/pagination/Paging';
 
 
 
-const DateContent = () => {
-    const dbURL=process.env.REACT_APP_DATABASE_URL;
-    const [token,]=useRecoilState(tokenState)
-    const [educationList,setEducationList]=useRecoilState(educationListState)
-    
-    const convertData=(dataList,categoryList)=>{
-        const convertedData=[]
-        for(let i=0;i<dataList.length;i++){
-            const temp=[]
-            temp.push(...Object.values(dataList[i]))
-            for(let j=0;j<temp.length;j++){
-                convertedData.push({...temp[j],category:categoryList[i]})
-            }
-            
-        }
-        return convertedData
+const DateContent = ({currentCategory}) => {
+    const [filteredList,setFilteredList]=useState([])
+    const [educationList,]=useRecoilState(educationListState)
+    const [isDeleteMode,setIsDeleteMode]=useState(false)
+    const [showDropDown,setShowDropDown]=useState(false)
+    const [dropDownPosition,setDropDownPosition]=useState('')
+
+    //이름때매 죽겠네
+    const onClickDropDown=(e)=>{
+        if(e.target.tagName==='BUTTON') return
+        setShowDropDown(!showDropDown)
+        setDropDownPosition(Number(e.currentTarget.offsetTop)+50)
     }
 
+    const onModify=()=>{
+        console.log('수정')
+    }
+
+    const onDelete=()=>{
+        console.log('삭제')
+    }
+
+
+
     useEffect(()=>{
-        axios.get(`${dbURL}/Educations.json?auth=${token}`)
-        .then(res=>{
-            const convertedData=convertData(Object.values(res.data),Object.keys(res.data))
-            setEducationList(convertedData)
-            //아몰랑ㅠ
-        })
-        .catch(e=>console.log(e))
-    },[dbURL, setEducationList, token])
+        //좀 꼬인듯
+        if(currentCategory==='전체보기'||!currentCategory){
+            setFilteredList(educationList)
+        }else{
+            const filteredData=educationList.filter(el=>el.category===currentCategory)
+            setFilteredList(filteredData)
+        }
+    },[currentCategory, educationList])
+
     return (
         <>
             <ListHeader>
@@ -45,8 +52,8 @@ const DateContent = () => {
             </ListHeader>
             <Ul>
                 {
-                    educationList?.map((el,idx)=>(
-                        <Li key={idx}>
+                    filteredList?.map((el,idx)=>(
+                        <Li key={idx} onClick={(e)=>onClickDropDown(e)}>
                             <div style={{width:"100px",height:"100%",background:'#C4C4C4'}}>thumbnail</div>
                             <div>
                                 <h3 className='meta-title'>
@@ -65,17 +72,24 @@ const DateContent = () => {
                             <div>
                                 {el.date}
                             </div>
-                            
-                            <button>
-                                <MdCreate/>
-                            </button>
+                            {
+                                isDeleteMode?
+                                <button onClick={onDelete}><MdClose size={16}/></button>:
+                                <button onClick={onModify}><MdCreate size={16}/></button>
+                            }
                             
                         </Li>
                     ))
                 }
             </Ul>
+            <Paging 
+                totalItemsCount={filteredList.length} 
+                itemsCountPerPage={currentCategory==='전체보기'||!currentCategory? 3:4} 
+                pageRangeDisplayed={currentCategory==='전체보기'||!currentCategory? 3:4}
+            />
+            {showDropDown && <DropDown setShowDropDown={setShowDropDown} setIsDeleteMode={setIsDeleteMode} dropDownPosition={dropDownPosition}/>}
         </>
     );
 };
 
-export default DateContent;
+export default React.memo(DateContent);

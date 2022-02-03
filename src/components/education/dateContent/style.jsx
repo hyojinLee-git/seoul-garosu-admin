@@ -69,10 +69,42 @@ export const Li=styled.li`
         background: none;
         border:none;
         cursor: pointer;
+        color:rgba(0, 0, 0, 0.54);
+    }
+    &>*:nth-child(6):hover{
+        color:rgba(0, 0, 0, 0.8);
     }
 
     .meta-title{
         margin:10px 0;
         
+    }
+`
+
+export const DropDownWrapper=styled.div`
+    position: absolute;
+    right: 60px;
+    top:${props=>props.position};
+    width: 130px;
+    height: 100px;
+    background: white;
+    //아무튼 그림자
+    box-shadow: 0 4 4 black;
+    
+    & button{
+        background: none;
+        border:none;
+        outline: none;
+        cursor: pointer;
+        width: 100%;
+        height: 50px;
+        text-align:start;
+        font-size: 15px;
+        color:#848484;
+        padding: 0 10px;
+        box-sizing: border-box;
+    }
+    & button:hover{
+        background: #F3F4F9;
     }
 `
