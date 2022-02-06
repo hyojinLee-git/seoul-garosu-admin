@@ -57,7 +57,7 @@ export const Li=styled.li`
     }
     &>*:nth-child(4){
         height: 40px;
-        background-color: #9EE7E3;
+        background-color: ${props=>props.color};
         justify-content: center;
         border-radius: 20px;
         margin:0 15px;

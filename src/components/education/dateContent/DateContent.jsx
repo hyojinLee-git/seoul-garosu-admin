@@ -6,7 +6,7 @@ import { educationListState } from '../../../state/education/educationListState'
 import DropDown from './DropDown';
 import Paging from '../../adopt/pagination/Paging';
 import { dateAscending } from '../../../utils/sortFunction';
-
+import axios from 'axios'
 
 
 const DateContent = ({currentCategory}) => {
@@ -31,6 +31,7 @@ const DateContent = ({currentCategory}) => {
 
     const onDelete=()=>{
         console.log('삭제')
+        //axios.delete(`${process.env.REACT_APP_DATABASE_URL}/Education/`)
     }
 
 
@@ -60,7 +61,11 @@ const DateContent = ({currentCategory}) => {
             <Ul>
                 {
                     filteredList?.map((el,idx)=>(
-                        <Li key={idx} onClick={(e)=>onClickDropDown(e)}>
+                        <Li 
+                            key={idx} 
+                            onClick={(e)=>onClickDropDown(e)}
+                            color={el.color}
+                        >
                             <div style={{width:"100px",height:"100%",background:'#C4C4C4'}}>thumbnail</div>
                             <div>
                                 <h3 className='meta-title'>

@@ -35,28 +35,34 @@ const Education = () => {
         for(let i=0;i<dataList.length;i++){
             const temp=[]
             temp.push(...Object.values(dataList[i]))
+            const color=temp.filter(el=>typeof el==='string')
             for(let j=0;j<temp.length;j++){
+                if(typeof temp[j]==='string') continue
                 convertedData.push({
                     ...temp[j],
-                    category:categoryList[i]
+                    category:categoryList[i],
+                    color:color[0]
                 })
             }
-            
         }
         console.log(convertedData)
         return convertedData
     }
 
-    const addColor=useCallback((categoryList)=>{
-        const data=categoryList.map(el=>({title:el,color:colorChart[Math.floor(Math.random()*colorChart.length)]}))
-        return data
+    const addColor=useCallback((obj)=>{
+        const categoryList=[]
+        for(let val in obj){
+            categoryList.push({title:val,color:obj[val]['color']})
+            
+        }
+        return categoryList
     },[])
 
     useEffect(()=>{
         //get category list
         axios.get(`${dbURL}/Educations.json?auth=${token}`)
         .then(res=>{
-            const preData=addColor(Object.keys(res.data))
+            const preData=addColor(res.data)
             setCategoryList(preData)
         })
         .catch(e=>console.log(e))

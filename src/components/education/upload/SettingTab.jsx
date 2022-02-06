@@ -47,6 +47,7 @@ const SettingTab = ({setFile,setFileName,metaData,onChangeMetaData}) => {
                 <label>미리보기 이미지</label>
                 <div style={{display:"flex",marginTop:"10px"}}>
                     <div style={{height:"200px",width:"200px",background:"#C4C4C4",marginRight:"30px"}}>thumbnail</div>
+                    <canvas></canvas>
                     <div>
                         <input type="file" required onChange={onChangeFile}/>
                     </div>
