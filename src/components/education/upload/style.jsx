@@ -57,7 +57,7 @@ export const Button=styled.button`
     background: ${props=>props.background};
     color:${props=>props.color};
     border-radius: ${props=>props.radius};
-    width: 120px;
+    width: 130px;
     height: 50px;
     font-size: 25px;
     cursor: pointer;
@@ -68,7 +68,7 @@ export const Button=styled.button`
     }
 `
 export const UploadModalBodyWrapper=styled.div`
-    height: 70%;
+    height: calc(82vh*0.7);
 `
 export const Wrapper=styled.div`
     border:1px solid #828282;
@@ -87,4 +87,8 @@ export const Wrapper=styled.div`
         border:none;
         margin-top:10px
     }
+    & select{
+        margin-top:10px;
+    }
+
 `

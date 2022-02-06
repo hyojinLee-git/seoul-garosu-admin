@@ -9,10 +9,7 @@ import {getDatabase,ref,update} from 'firebase/database'
 const CategoryContent = () => {
     const [categoryList,]=useRecoilState(categoryListState)
     const [category,setCategory]=useState('')
-
-    
     const [currentCategory,setCurrentCategory]=useState('전체보기')
-    const colorChart=['#E2E1E1','#F9C3C3','#F7D1C6','#F9E5C4','#FCF2C7','#DFECBB','#BEDACD','#D8F5F4','#B8EAE7','#B5C7ED','#D1CEF6','#E1C4EE','#FDDDF9','#FAC5E0','#FED5D7','#C5C5C5']
     const db=getDatabase()
 
     const onChangeCategory=(e)=>{
@@ -54,13 +51,13 @@ const CategoryContent = () => {
                 {
                     categoryList?.map(el=>(
                         <Button
-                            className={currentCategory===el? 'current-category':''}
+                            className={currentCategory===el.title? 'current-category':''}
                             onClick={onChangeCategory}
                             color={
-                                colorChart[Math.floor(Math.random()*colorChart.length)]
+                                el.color
                             } 
-                            key={el}>
-                                {el}
+                            key={el.title}>
+                                {el.title}
                         </Button>
                     ))
                 }

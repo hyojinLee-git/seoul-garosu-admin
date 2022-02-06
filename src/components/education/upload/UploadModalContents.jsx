@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {MdClear} from 'react-icons/md'
 import {UploadModalContentsWrapper,UploadModalContentsHeader} from './style'
 import InfoTab from './InfoTab';
@@ -9,6 +9,7 @@ import ControlBar from './ControlBar';
 import {getStorage, ref, uploadBytes} from 'firebase/storage'
 import axios from 'axios';
 import { tokenState } from '../../../state/tokenState';
+import { categoryListState } from '../../../state/education/categoryListState';
 
 
 const UploadModalContents = () => {
@@ -19,12 +20,13 @@ const UploadModalContents = () => {
     const [fileName,setFileName]=useState('')
     const storage=getStorage()
     const dbURL=process.env.REACT_APP_DATABASE_URL;
+    const [categoryList,]=useRecoilState(categoryListState)
     const initialMetaData={
         content:'',
         date:'',
         description:'',
         title:'',
-        category:''
+        category:categoryList?.[0]
     }
     const [metaData,setMetaData]=useState(initialMetaData)
 
@@ -61,9 +63,7 @@ const UploadModalContents = () => {
             return
         }
         
-        const fileRef=ref(storage,`Educations/${metaData.category}/sampleVideo.mp4`)
-        //이게되네
-        console.log(fileName)
+        const fileRef=ref(storage,`Educations/${metaData.category}/${fileName}`)
 
         //storage에 file 업로드
         uploadBytes(fileRef,file)
@@ -74,10 +74,12 @@ const UploadModalContents = () => {
         .catch(e=>console.log(e))
 
         //data 전처리
-        const today=new Date()
-        const postData={...metaData,date:`${today.getFullYear()}.${today.getMonth()+1}.${today.getDate()}`}
+        const postData={
+            ...metaData,
+            date:new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
+        }
         delete postData.category
-        console.log(postData)
+
 
         //upload meta data to Realtime Database
         axios.post(`${dbURL}/Educations/${metaData.category}.json?auth=${token}`,postData)
@@ -105,8 +107,22 @@ const UploadModalContents = () => {
             <form onSubmit={onSubmit}>
                 <ControlBar onChangeTab={onChangeTab} currentTab={currentTab}/>
 
-                {currentTab==='기본 정보' && <InfoTab onChangeMetaData={onChangeMetaData} metaData={metaData}/>}
-                {currentTab==='설정' && <SettingTab onChangeMetaData={onChangeMetaData} setFile={setFile} setFileName={setFileName} metaData={metaData}/>}
+                {
+                    currentTab==='기본 정보' && 
+                    <InfoTab 
+                        onChangeMetaData={onChangeMetaData} 
+                        metaData={metaData}
+                    />
+                }
+                {
+                    currentTab==='설정' && 
+                    <SettingTab 
+                        onChangeMetaData={onChangeMetaData} 
+                        setFile={setFile} 
+                        setFileName={setFileName} 
+                        metaData={metaData}
+                    />
+                }
             </form>
         </UploadModalContentsWrapper>
     );

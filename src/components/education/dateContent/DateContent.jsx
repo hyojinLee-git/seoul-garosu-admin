@@ -5,6 +5,7 @@ import { useRecoilState } from 'recoil';
 import { educationListState } from '../../../state/education/educationListState';
 import DropDown from './DropDown';
 import Paging from '../../adopt/pagination/Paging';
+import { dateAscending } from '../../../utils/sortFunction';
 
 
 
@@ -14,6 +15,8 @@ const DateContent = ({currentCategory}) => {
     const [isDeleteMode,setIsDeleteMode]=useState(false)
     const [showDropDown,setShowDropDown]=useState(false)
     const [dropDownPosition,setDropDownPosition]=useState('')
+
+    
 
     //이름때매 죽겠네
     const onClickDropDown=(e)=>{
@@ -35,9 +38,13 @@ const DateContent = ({currentCategory}) => {
     useEffect(()=>{
         //좀 꼬인듯
         if(currentCategory==='전체보기'||!currentCategory){
-            setFilteredList(educationList)
+            const data=[...educationList]
+            data.sort(dateAscending)
+            setFilteredList(data)
+            
         }else{
             const filteredData=educationList.filter(el=>el.category===currentCategory)
+            filteredData.sort(dateAscending)
             setFilteredList(filteredData)
         }
     },[currentCategory, educationList])

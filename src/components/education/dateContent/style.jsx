@@ -88,8 +88,7 @@ export const DropDownWrapper=styled.div`
     width: 130px;
     height: 100px;
     background: white;
-    //아무튼 그림자
-    box-shadow: 0 4 4 black;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     
     & button{
         background: none;

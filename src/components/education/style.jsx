@@ -1,11 +1,12 @@
 import styled from "styled-components";
 
 export const EducationContainer=styled.div`
-    width: 100%;
+    width: 80vw;
     height: 90vh;
     /* border:3px solid blue; */
     box-sizing: border-box;
     padding: 0 10px;
+    position: relative;
 `
 export const ControlBar=styled.div`
     /* border:1px solid red; */
