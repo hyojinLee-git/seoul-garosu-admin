@@ -27,7 +27,7 @@ export const Button=styled.button`
     width: 325px;
     height: 60px;
     color:white;
-    background: #30CDA8;
+    background: linear-gradient(84deg, #9dd995 -35%, #30cda8 109%);
     border:none;
     outline: none;
     border-radius: 80px;
@@ -60,3 +60,4 @@ export const MetaData=styled.div`
 export const Error=styled.div`
     color:#e01e5a;
 `
+

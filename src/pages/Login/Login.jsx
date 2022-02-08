@@ -2,17 +2,23 @@ import React, {  useState } from 'react';
 import {Input,Button,Label,Form,LogoDiv,MetaData,Error} from './style'
 import LogoImg from '../../assets/logo.png'
 import { authService } from '../../utils/firebase';
-import {signInWithEmailAndPassword} from 'firebase/auth'
+import {browserSessionPersistence, setPersistence, signInWithEmailAndPassword} from 'firebase/auth'
 import { Navigate, useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { loginState } from '../../state/login/loginState';
+import { tokenState } from '../../state/tokenState';
+import {useCookies} from 'react-cookie'
 
 const Login = () => {
     const navigate=useNavigate();
+    const [login,setLogin]=useRecoilState(loginState)
     const [loginData,setLoginData]=useState({
         id:'',
         password:''
     })
+    const [,setToken]=useRecoilState(tokenState)
     const [error,setError]=useState(false)
-
+    const [cookies, ]=useCookies(['url'])
     //change input function
     const onChangeLonginData=(e)=>{
         const {value,name}=e.target
@@ -20,6 +26,15 @@ const Login = () => {
             ...loginData,
             [name]:value
         })
+    }
+
+    const getToken=async ()=>{
+        try{
+           const token= await authService.currentUser.getIdToken()
+           setToken(token)
+        }catch(e){
+            console.log(e)
+        }
     }
 
     //중복 로그인 방지
@@ -33,11 +48,18 @@ const Login = () => {
         const {id,password}=loginData;
         setError(false)
         try{
-            
+            await setPersistence(authService,browserSessionPersistence)
             await signInWithEmailAndPassword(authService,id,password)
             setError(false)
+
+            //login=true
+            setLogin(true)
+
+            //token setting
+            getToken()            
+            
             //main으로 이동
-            navigate('/adopt/all/1')
+            navigate('/adopt/all')
         }catch(e){
             if (e.code==='auth/user-not-found'){
                 setError('허가되지 않은 사용자입니다.')
@@ -48,6 +70,9 @@ const Login = () => {
             }
         }
 
+    }
+    if(login){
+        return <Navigate replace to={`/${cookies.url}`}/>
     }
     return (
         <div>
