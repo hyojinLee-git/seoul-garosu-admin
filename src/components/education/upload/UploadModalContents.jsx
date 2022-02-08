@@ -26,7 +26,7 @@ const UploadModalContents = () => {
         date:'',
         description:'',
         title:'',
-        category:categoryList?.[0]
+        category:categoryList?.[0].title
     }
     const [metaData,setMetaData]=useState(initialMetaData)
 
@@ -64,7 +64,7 @@ const UploadModalContents = () => {
         }
         
         const fileRef=ref(storage,`Educations/${metaData.category}/${fileName}`)
-
+        
         //storage에 file 업로드
         uploadBytes(fileRef,file)
         .then(res=>{
