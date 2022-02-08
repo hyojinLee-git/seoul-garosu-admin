@@ -5,6 +5,7 @@ import DateContent from '../dateContent/DateContent';
 import { Button,Input,CategoryForm,FormButton } from './style';
 import {getDatabase,ref,update} from 'firebase/database'
 
+const colorChart=['#E2E1E1','#F9C3C3','#F7D1C6','#F9E5C4','#FCF2C7','#DFECBB','#BEDACD','#D8F5F4','#B8EAE7','#B5C7ED','#D1CEF6','#E1C4EE','#FDDDF9','#FAC5E0','#FED5D7','#C5C5C5']
 
 const CategoryContent = () => {
     const [categoryList,]=useRecoilState(categoryListState)
@@ -30,9 +31,11 @@ const CategoryContent = () => {
             alert('10개 이상입니다.')
             return
         }
+        const color=colorChart[Math.floor(Math.random()*10)]
         const updates={}
-        updates[`/Educations/${category}`]=''
+        updates[`/Educations/${category}`]={color}
         update(ref(db),updates)
+        setCategory('')
     }
 
     
