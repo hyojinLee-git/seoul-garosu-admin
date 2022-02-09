@@ -13,12 +13,10 @@ import { educationListState } from '../../state/education/educationListState';
 
 const Education = () => {
     const dbURL=process.env.REACT_APP_DATABASE_URL;
-    const [,setShowUploadModal]=useRecoilState(uploadModalState)
     const [currentTab,setCurrentTab]=useState('업로드 날짜')
-    
     const [token,]=useRecoilState(tokenState)
+    const [,setShowUploadModal]=useRecoilState(uploadModalState)
     const [,setCategoryList]=useRecoilState(categoryListState)
-    //전역으로 그닥??
     const [,setEducationList]=useRecoilState(educationListState)
 
 
@@ -45,7 +43,6 @@ const Education = () => {
                 })
             }
         }
-        console.log(convertedData)
         return convertedData
     }
 
@@ -53,31 +50,41 @@ const Education = () => {
         const categoryList=[]
         for(let val in obj){
             categoryList.push({title:val,color:obj[val]['color']})
-            
         }
         return categoryList
     },[])
 
-    useEffect(()=>{
-        //get category list
-        axios.get(`${dbURL}/Educations.json?auth=${token}`)
-        .then(res=>{
+    //fetch data
+    const fetchEducationData=useCallback(async()=>{
+        try{
+            const res=await axios.get(`${dbURL}/Educations.json?auth=${token}`)
+            const convertedData=convertData(Object.values(res.data),Object.keys(res.data))
+            setEducationList(convertedData)
+
+        }catch(e){
+            console.log(e)
+        }
+    },[dbURL, setEducationList, token])
+
+    //fetch category data
+    const fetchCategoryData=useCallback(async ()=>{
+        try{
+            const res=await axios.get(`${dbURL}/Educations.json?auth=${token}`)
             const preData=addColor(res.data)
             setCategoryList(preData)
-        })
-        .catch(e=>console.log(e))
+        }catch(e){
+            console.log(e)
+        }
+
+        
     },[addColor, dbURL, setCategoryList, token])
 
 
     useEffect(()=>{
-        //get education list
-        axios.get(`${dbURL}/Educations.json?auth=${token}`)
-        .then(res=>{
-            const convertedData=convertData(Object.values(res.data),Object.keys(res.data))
-            setEducationList(convertedData)
-        })
-        .catch(e=>console.log(e))
-    },[dbURL, setEducationList, token])
+        fetchCategoryData()
+        fetchEducationData()
+
+    },[fetchCategoryData, fetchEducationData])
 
     return (
         <EducationContainer>
