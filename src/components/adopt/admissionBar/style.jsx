@@ -19,7 +19,10 @@ export const AdmissionBarButton=styled.button`
         border:none;
         background: none;
         cursor: pointer;
-        & *:active{
+        &:active{
+            color:#44AB9A;
+        }
+        &:hover{
             color:#44AB9A;
         }
 

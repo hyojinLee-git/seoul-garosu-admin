@@ -12,6 +12,7 @@ import { modalState } from '../../../state/modalState';
 import { admissionState } from '../../../state/admissionState';
 import { onSubmitApproval,onSubmitRejection } from '../../../utils/submitFunction';
 import { currentPageState } from '../../../state/currentPageState';
+import { getDatabase,ref,update } from 'firebase/database';
 
 const AdmissionBar = ({onToggleDropDown}) => {
     const [checked,setChecked]=useRecoilState(checkboxState)
@@ -22,7 +23,7 @@ const AdmissionBar = ({onToggleDropDown}) => {
     const [,setAdmission]=useRecoilState(admissionState)
     const [currentPage,setCurrentPage]=useRecoilState(currentPageState)
 
-
+    const db=getDatabase()
     const dbURL=process.env.REACT_APP_DATABASE_URL;
     //이거 컴포넌트 마운트언마운트 시간대 바뀌는지 알아야할듯
 
@@ -55,23 +56,35 @@ const AdmissionBar = ({onToggleDropDown}) => {
                 return
             }
         }
+        console.log(checkedList)
 
         //백엔드 통신
         checkedList.forEach(checkedListItem=>{
-            //여기는 좀 전처리 필요할듯
+            //데이터 전처리
+            const postData={...checkedListItem}
 
-            //Rejection에 데이터 추가
-            axios.post(`${dbURL}/Candidates.json?auth=${token}`,checkedListItem)
-            .then(res=>console.log(res))
-            .catch(e=>console.log(e))
+            delete postData.key
+            delete postData.field
+
+            //Candidates에 데이터 추가
+            const updates={}
+            updates[`Candidates/${checkedListItem.key}`]=postData
+            update(ref(db),updates)
+
+            //approve일때 Trees_taken에 데이터 삭제
+            if(checkedListItem.field==='Approve'){
+                axios.delete(`${dbURL}/Trees_taken/${checkedListItem.key}.json?auth=${token}`)
+                .then(res=>console.log(res))
+                .catch(e=>console.log(e))
+            }
 
             //Rejections에서 데이터 삭제
             axios.delete(`${dbURL}/Rejections/${checkedListItem.key}.json?auth=${token}`)
             .then(res=>console.log(res))
             .catch(e=>console.log(e))
 
-            //Trees_taken에서 데이터 삭제
-            axios.delete(`${dbURL}/Trees_taken/${checkedListItem.key}.json?auth=${token}`)
+            //Approve에서 데이터 삭제
+            axios.delete(`${dbURL}/Approve/${checkedListItem.key}.json?auth=${token}`)
             .then(res=>console.log(res))
             .catch(e=>console.log(e))
             
@@ -144,7 +157,8 @@ const AdmissionBar = ({onToggleDropDown}) => {
                 </ProcessButton>
                 <ProcessButton 
                     type='button' 
-                    className="admission-btn" 
+                    className="admission-btn"
+                    onClick={onSubmitWait}
                     color="#DADADA">
                         대기
                 </ProcessButton>
