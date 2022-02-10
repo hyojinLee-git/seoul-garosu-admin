@@ -15,15 +15,15 @@ const DateContent = ({currentCategory}) => {
     const [isDeleteMode,setIsDeleteMode]=useState(false)
     const [showDropDown,setShowDropDown]=useState(false)
     const [dropDownPosition,setDropDownPosition]=useState('')
-    const [,setCurrentPage]=useRecoilState(currentPageState)
-
+    const [currentPage,setCurrentPage]=useRecoilState(currentPageState)
+    const maxDataCurrentPage=currentCategory? 3:4
     //pagination
-    // const startIndex=(Number(currentPage)-1)*3
-    // const endIndex=(filteredList.length-startIndex)%3===0? 
-    //     Number(currentPage)*10:
-    //         Math.ceil(filteredList.length/3)===Number(currentPage)?
-    //         filteredList.length:startIndex+3
-    // const currentData=filteredList.slice(startIndex,endIndex)
+    const startIndex=(Number(currentPage)-1)*maxDataCurrentPage
+    const endIndex=(filteredList.length-startIndex)%maxDataCurrentPage===0? 
+        Number(currentPage)*10:
+            Math.ceil(filteredList.length/maxDataCurrentPage)===Number(currentPage)?
+            filteredList.length:startIndex+maxDataCurrentPage
+    const currentData=filteredList.slice(startIndex,endIndex)
 
     //이름때매 죽겠네
     const onClickDropDown=(e)=>{
@@ -70,7 +70,7 @@ const DateContent = ({currentCategory}) => {
             </ListHeader>
             <Ul>
                 {
-                    filteredList?.map((el,idx)=>(
+                    currentData?.map((el,idx)=>(
                         <Li 
                             key={idx} 
                             onClick={(e)=>onClickDropDown(e)}
@@ -109,9 +109,8 @@ const DateContent = ({currentCategory}) => {
             </Ul>
             <Paging 
                 totalItemsCount={filteredList.length} 
-                itemsCountPerPage={3} 
-                pageRangeDisplayed={3}
-                //currentPageState={currentPageState}
+                itemsCountPerPage={maxDataCurrentPage} 
+                pageRangeDisplayed={maxDataCurrentPage}
             />
             {showDropDown && <DropDown setShowDropDown={setShowDropDown} setIsDeleteMode={setIsDeleteMode} dropDownPosition={dropDownPosition}/>}
         </>
