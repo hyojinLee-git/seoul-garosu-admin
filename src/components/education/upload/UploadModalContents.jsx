@@ -10,12 +10,14 @@ import {getStorage, ref, uploadBytes} from 'firebase/storage'
 import axios from 'axios';
 import { tokenState } from '../../../state/tokenState';
 import { categoryListState } from '../../../state/education/categoryListState';
+import { submitState } from '../../../state/education/submitState';
 
 
 const UploadModalContents = () => {
     const [currentTab,setCurrentTab]=useState('기본 정보')
     const [,setShowUploadModal]=useRecoilState(uploadModalState)
     const [token,]=useRecoilState(tokenState)
+    const [,setSubmit]=useRecoilState(submitState)
     const [file,setFile]=useState('')
     const [fileName,setFileName]=useState('')
     const storage=getStorage()
@@ -87,6 +89,7 @@ const UploadModalContents = () => {
             setMetaData(initialMetaData)
             alert('업로드 되었습니다.')
             setShowUploadModal(false)
+            setSubmit(true)
         })
         .catch(e=>console.log(e))
 

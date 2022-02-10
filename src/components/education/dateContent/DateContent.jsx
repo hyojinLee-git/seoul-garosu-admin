@@ -4,10 +4,10 @@ import {MdCreate,MdClose} from 'react-icons/md'
 import { useRecoilState } from 'recoil';
 import { educationListState } from '../../../state/education/educationListState';
 import DropDown from './DropDown';
-import Paging from '../../adopt/pagination/Paging';
+import Paging from '../../adopt/pagination/Paging'
 import { dateAscending } from '../../../utils/sortFunction';
-import axios from 'axios'
-
+import {getStorage,ref} from 'firebase/storage'
+import { currentPageState } from '../../../state/currentPageState';
 
 const DateContent = ({currentCategory}) => {
     const [filteredList,setFilteredList]=useState([])
@@ -15,8 +15,15 @@ const DateContent = ({currentCategory}) => {
     const [isDeleteMode,setIsDeleteMode]=useState(false)
     const [showDropDown,setShowDropDown]=useState(false)
     const [dropDownPosition,setDropDownPosition]=useState('')
+    const [,setCurrentPage]=useRecoilState(currentPageState)
 
-    
+    //pagination
+    // const startIndex=(Number(currentPage)-1)*3
+    // const endIndex=(filteredList.length-startIndex)%3===0? 
+    //     Number(currentPage)*10:
+    //         Math.ceil(filteredList.length/3)===Number(currentPage)?
+    //         filteredList.length:startIndex+3
+    // const currentData=filteredList.slice(startIndex,endIndex)
 
     //이름때매 죽겠네
     const onClickDropDown=(e)=>{
@@ -33,8 +40,8 @@ const DateContent = ({currentCategory}) => {
         console.log('삭제')
         //axios.delete(`${process.env.REACT_APP_DATABASE_URL}/Education/`)
     }
-
-
+    const storage=getStorage()
+    const videoRef=ref(storage,"gs://garosero-70ff7.appspot.com/Educations/Planting/Pexels Videos 3617.mp4")
 
     useEffect(()=>{
         //좀 꼬인듯
@@ -48,7 +55,10 @@ const DateContent = ({currentCategory}) => {
             filteredData.sort(dateAscending)
             setFilteredList(filteredData)
         }
-    },[currentCategory, educationList])
+        return ()=>{
+            setCurrentPage(1)
+        }
+    },[currentCategory, educationList, setCurrentPage])
 
     return (
         <>
@@ -67,6 +77,9 @@ const DateContent = ({currentCategory}) => {
                             color={el.color}
                         >
                             <div style={{width:"100px",height:"100%",background:'#C4C4C4'}}>thumbnail</div>
+                            {/* <video width="100px">
+                                <source src={videoRef} type="video/mp4"/>
+                            </video> */}
                             <div>
                                 <h3 className='meta-title'>
                                     {el.title}
@@ -96,8 +109,9 @@ const DateContent = ({currentCategory}) => {
             </Ul>
             <Paging 
                 totalItemsCount={filteredList.length} 
-                itemsCountPerPage={currentCategory==='전체보기'||!currentCategory? 3:4} 
-                pageRangeDisplayed={currentCategory==='전체보기'||!currentCategory? 3:4}
+                itemsCountPerPage={3} 
+                pageRangeDisplayed={3}
+                //currentPageState={currentPageState}
             />
             {showDropDown && <DropDown setShowDropDown={setShowDropDown} setIsDeleteMode={setIsDeleteMode} dropDownPosition={dropDownPosition}/>}
         </>

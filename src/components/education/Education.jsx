@@ -2,23 +2,21 @@ import React,{useCallback, useEffect, useState} from 'react';
 import {EducationContainer,ControlBar,Button,} from './style'
 import { useRecoilState } from 'recoil';
 import { uploadModalState } from '../../state/education/uploadModalState';
-import axios from 'axios';
-import { tokenState } from '../../state/tokenState';
 import { categoryListState } from '../../state/education/categoryListState';
 import DateContent from './dateContent/DateContent';
 import CategoryContent from './categoryContent/CategoryContent';
 import { educationListState } from '../../state/education/educationListState';
-
+import {get,ref,getDatabase, child} from 'firebase/database'
+import { submitState } from '../../state/education/submitState';
 
 
 const Education = () => {
-    const dbURL=process.env.REACT_APP_DATABASE_URL;
     const [currentTab,setCurrentTab]=useState('업로드 날짜')
-    const [token,]=useRecoilState(tokenState)
     const [,setShowUploadModal]=useRecoilState(uploadModalState)
     const [,setCategoryList]=useRecoilState(categoryListState)
     const [,setEducationList]=useRecoilState(educationListState)
-
+    const [submit,setSubmit]=useRecoilState(submitState)
+    const dbRef=ref(getDatabase())
 
     const onChangeTab=(e)=>{
         setCurrentTab(e.target.innerText)
@@ -57,34 +55,34 @@ const Education = () => {
     //fetch data
     const fetchEducationData=useCallback(async()=>{
         try{
-            const res=await axios.get(`${dbURL}/Educations.json?auth=${token}`)
-            const convertedData=convertData(Object.values(res.data),Object.keys(res.data))
+            const res=await get(child(dbRef,`/Educations`))
+            const convertedData=convertData(Object.values(res.val()),Object.keys(res.val()))
             setEducationList(convertedData)
 
         }catch(e){
             console.log(e)
         }
-    },[dbURL, setEducationList, token])
+    },[dbRef, setEducationList])
 
     //fetch category data
     const fetchCategoryData=useCallback(async ()=>{
         try{
-            const res=await axios.get(`${dbURL}/Educations.json?auth=${token}`)
-            const preData=addColor(res.data)
+            const res=await get(child(dbRef,`/Educations`))
+            const preData=addColor(res.val())
             setCategoryList(preData)
         }catch(e){
             console.log(e)
         }
 
         
-    },[addColor, dbURL, setCategoryList, token])
+    },[addColor, dbRef, setCategoryList])
 
 
     useEffect(()=>{
         fetchCategoryData()
         fetchEducationData()
-
-    },[fetchCategoryData, fetchEducationData])
+        setSubmit(false)
+    },[fetchCategoryData, fetchEducationData, setSubmit, submit])
 
     return (
         <EducationContainer>
