@@ -91,4 +91,46 @@ export const Wrapper=styled.div`
         margin-top:10px;
     }
 
+    & .meta{
+        color:#828282;
+    }
+
+    & .input-wrapper{
+        height:100%;
+        border:1px solid #828282;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border-radius:10px;
+        width:329px;
+        
+    }
+
+    & #input-file{
+        position: absolute;
+        width: 0;
+        height: 0;
+        padding: 0;
+        overflow: hidden;
+        border: 0;
+    }
+    & .input-file-btn{
+        background:#669AFF;
+        color:white;
+        cursor:pointer;
+        padding:5px 10px;
+        border-radius:5px;
+    }
+    & #thumbnail{
+        margin-left:10px;
+    }
+    & #thumbnail img{
+        max-width:400px;
+        height:200px;
+
+    }
+
+`
+export const Label=styled.label`
+
 `
