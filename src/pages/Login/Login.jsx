@@ -47,6 +47,15 @@ const Login = () => {
         e.preventDefault();
         const {id,password}=loginData;
         setError(false)
+        if(!id || !id.trim() || !password||!password.trim()){
+            alert('아이디 또는 비밀번호를 입력해주세요.')
+            return
+        }
+        if(!id.match(/[\w\-.]+@seoul.com/)){
+            setError('허가되지 않은 사용자입니다.')
+            return
+        }
+
         try{
             await setPersistence(authService,browserSessionPersistence)
             await signInWithEmailAndPassword(authService,id,password)
@@ -62,7 +71,7 @@ const Login = () => {
             navigate('/adopt/all')
         }catch(e){
             if (e.code==='auth/user-not-found'){
-                setError('허가되지 않은 사용자입니다.')
+                setError('가입되지 않은 사용자입니다.')
             }else if(e.code==='auth/wrong-password'){
                 setError('비밀번호가 일치하지 않습니다.')
             }else{
