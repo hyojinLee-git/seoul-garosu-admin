@@ -22,7 +22,6 @@ const Map = () => {
         <MapWrapper className='kakao-map'>
             지도
         </MapWrapper>
-        // <div className='kakao-map' style={{width:"400px",height:"400px"}}></div>
     );
 };
 
