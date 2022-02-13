@@ -78,7 +78,8 @@ const UploadModalContents = () => {
         //data 전처리
         const postData={
             ...metaData,
-            date:new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
+            date:new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0],
+            content: `/Educations/${metaData.category}/${fileName}`
         }
         delete postData.category
 

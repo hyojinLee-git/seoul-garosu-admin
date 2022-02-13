@@ -6,9 +6,9 @@ import { categoryListState } from '../../state/education/categoryListState';
 import DateContent from './dateContent/DateContent';
 import CategoryContent from './categoryContent/CategoryContent';
 import { educationListState } from '../../state/education/educationListState';
-import {get,ref,getDatabase, child} from 'firebase/database'
+import {get,ref as refDatabase,getDatabase, child} from 'firebase/database'
 import { submitState } from '../../state/education/submitState';
-
+//import { getStorage,ref as refStorage,getDownloadURL } from 'firebase/storage';
 
 const Education = () => {
     const [currentTab,setCurrentTab]=useState('업로드 날짜')
@@ -16,7 +16,8 @@ const Education = () => {
     const [,setCategoryList]=useRecoilState(categoryListState)
     const [,setEducationList]=useRecoilState(educationListState)
     const [submit,setSubmit]=useRecoilState(submitState)
-    const dbRef=ref(getDatabase())
+    const dbRef=refDatabase(getDatabase())
+
 
     const onChangeTab=(e)=>{
         setCurrentTab(e.target.innerText)
@@ -28,6 +29,7 @@ const Education = () => {
 
     const convertData=(dataList,categoryList)=>{
         const convertedData=[]
+
         for(let i=0;i<dataList.length;i++){
             const temp=[]
             temp.push(...Object.values(dataList[i]))
@@ -37,7 +39,8 @@ const Education = () => {
                 convertedData.push({
                     ...temp[j],
                     category:categoryList[i],
-                    color:color[0]
+                    color:color[0],
+                    key:Object.keys(dataList[i])[j],
                 })
             }
         }

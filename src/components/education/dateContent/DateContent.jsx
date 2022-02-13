@@ -6,8 +6,9 @@ import { educationListState } from '../../../state/education/educationListState'
 import DropDown from './DropDown';
 import Paging from '../../adopt/pagination/Paging'
 import { dateAscending } from '../../../utils/sortFunction';
-import {getStorage,ref} from 'firebase/storage'
+import {deleteObject, getStorage,ref} from 'firebase/storage'
 import { currentPageState } from '../../../state/currentPageState';
+import axios from 'axios'
 
 const DateContent = ({currentCategory}) => {
     const [filteredList,setFilteredList]=useState([])
@@ -17,6 +18,7 @@ const DateContent = ({currentCategory}) => {
     const [dropDownPosition,setDropDownPosition]=useState('')
     const [currentPage,setCurrentPage]=useRecoilState(currentPageState)
     const maxDataCurrentPage=currentCategory? 3:4
+    const storage=getStorage()
     //pagination
     const startIndex=(Number(currentPage)-1)*maxDataCurrentPage
     const endIndex=(filteredList.length-startIndex)%maxDataCurrentPage===0? 
@@ -36,12 +38,18 @@ const DateContent = ({currentCategory}) => {
         console.log('수정')
     }
 
-    const onDelete=()=>{
-        console.log('삭제')
-        //axios.delete(`${process.env.REACT_APP_DATABASE_URL}/Education/`)
+    const onDelete=(e)=>{
+        const {category,key,content}=e.currentTarget.parentNode.dataset
+
+        //delete data from realtime database
+        axios.delete(`${process.env.REACT_APP_DATABASE_URL}/Education/${category}/${key}`)
+        .catch(e=>console.log(e))
+
+        //delete data from storage
+        deleteObject(ref(storage,content))
+        .catch(e=>console.log(e))
     }
-    const storage=getStorage()
-    const videoRef=ref(storage,"gs://garosero-70ff7.appspot.com/Educations/Planting/Pexels Videos 3617.mp4")
+
 
     useEffect(()=>{
         //좀 꼬인듯
@@ -55,9 +63,13 @@ const DateContent = ({currentCategory}) => {
             filteredData.sort(dateAscending)
             setFilteredList(filteredData)
         }
+
+
         return ()=>{
             setCurrentPage(1)
         }
+
+
     },[currentCategory, educationList, setCurrentPage])
 
     return (
@@ -71,14 +83,17 @@ const DateContent = ({currentCategory}) => {
             <Ul>
                 {
                     currentData?.map((el,idx)=>(
-                        <Li 
+                        <Li
+                            data-filename={el.content}
+                            data-key={el.key}
+                            data-category={el.category}
                             key={idx} 
                             onClick={(e)=>onClickDropDown(e)}
                             color={el.color}
                         >
-                            <div style={{width:"100px",height:"100%",background:'#C4C4C4'}}>thumbnail</div>
-                            {/* <video width="100px">
-                                <source src={videoRef} type="video/mp4"/>
+                            <div style={{width:"90%",height:"100%",background:"#c4c4c4"}}>thumbnail</div>
+                            {/* <video width="90%" controls>
+                                <source src={"https://firebasestorage.googleapis.com/v0/b/garosero-70ff7.appspot.com/o/Educations%2FPlanting%2FPexels%20Videos%203617.mp4?alt=media&token=7c13c008-d6b8-4d14-8111-53f20f51a347"} type="video/mp4"/>
                             </video> */}
                             <div>
                                 <h3 className='meta-title'>
