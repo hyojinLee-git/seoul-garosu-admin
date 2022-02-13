@@ -1,74 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {ApplyModalContentsWrapper,ApplyModalContentsHeader,ApplyModalContentsBody,ApplyModalContentsMeta,Button} from './css/style'
 import { applyModalState} from '../../../state/applyModalState'
-import { useRecoilState } from 'recoil';
-import { clickedApplyState } from '../../../state/applyModalState';
-import {getDatabase,ref,child,get, set} from 'firebase/database'
+import {  useRecoilState } from 'recoil';
 import {MdClear} from 'react-icons/md'
-import { menuState } from '../../../state/menuState';
-import axios from 'axios';
+import { modalState } from '../../../state/modalState';
+import { admissionState } from '../../../state/admissionState';
 import { tokenState } from '../../../state/tokenState';
+import { checkedListState } from '../../../state/checkedListState';
+import {onSubmitApproval, onSubmitRejection } from '../../../utils/submitFunction';
 
 const ApplyModalContents = () => {
-    const [loading,setLoading]=useState(false)
-    const [showApplyModal,setShowApplyModal]=useRecoilState(applyModalState)
-    //key
-    const [clickedApply]=useRecoilState(clickedApplyState)
-    //data 정보
-    const [clickedApplyItem,setClickedApplyItem]=useState({})
-    const {name, date,location, tree_location, tree_type}=clickedApplyItem
-    //선택한 메뉴(임시)
-    const [currentMenu]=useRecoilState(menuState)
-    const dbURL=process.env.REACT_APP_DATABASE_URL;
+    const [,setShowApplyModal]=useRecoilState(applyModalState)
+    const[checkedList,setCheckedList]=useRecoilState(checkedListState)
     const [token]=useRecoilState(tokenState)
-
+    const [,setShowModal]=useRecoilState(modalState)
+    const [,setAdmission]=useRecoilState(admissionState)
+    const {name, date,location, tree_location, tree_type,motive}=checkedList?.[0]
+    
     //close modal
     const closeApplyModal=()=>{
         setShowApplyModal(false)
     }
 
-    //data fetching
     useEffect(()=>{
-        const dbref=ref(getDatabase())
-        setLoading(true)
-        if(currentMenu==='전체 입양신청'){
-            const promise1=axios.get(`${dbURL}/Candidates/${clickedApply}.json?auth=${token}`)
-            const promise2=axios.get(`${dbURL}/Trees_taken/${clickedApply}.json?auth=${token}`)
-
-            Promise.all([promise1,promise2])
-            .then(res=>{
-
-                if(res[0].data) setClickedApplyItem(res[0].data)
-                if(res[1].data) setClickedApplyItem(res[1].data)
-                setLoading(false)
-            })
-            .catch(e=>console.log(e))
-
-            return
-        }else if(currentMenu==='승인한 입양신청'){
-            get(child(dbref,`Trees_taken/${clickedApply}`))
-            .then((res)=>{
-                setClickedApplyItem(res.val())
-                setLoading(false)
-            })
-            .catch(e=>console.log(e))
-        }else if (currentMenu==='반려한 입양신청'){
-            return
-        }else if(currentMenu==='대기중인 입양신청'){
-            get(child(dbref,`Candidates/${clickedApply}`))
-            .then((res)=>{
-                setClickedApplyItem(res.val())
-                setLoading(false)
-            })
-            .catch(e=>console.log(e))
-        }else{
-            return
+ 
+        return()=>{
+            setCheckedList([])
         }
 
-    },[clickedApply, currentMenu, dbURL, token])
+    },[ setCheckedList])
     
-    if(loading) return <ApplyModalContentsWrapper>로딩중...</ApplyModalContentsWrapper>
-
+    
     return (
         <ApplyModalContentsWrapper>
             <ApplyModalContentsHeader>
@@ -84,8 +46,26 @@ const ApplyModalContents = () => {
                     {name},{location},{date}
                 </div>
                 <div>
-                    <Button color='#6AD39F'>승인</Button>
-                    <Button color='#FFBEB4'>반려</Button>
+                    <Button 
+                        color='#6AD39F' 
+                        onClick={()=>onSubmitApproval(  
+                        checkedList,
+                        setCheckedList,
+                        token,
+                        setAdmission,
+                        setShowModal,)}>
+                            승인
+                    </Button>
+                    <Button 
+                        color='#FFBEB4' 
+                        onClick={()=>onSubmitRejection(  
+                            checkedList,
+                            setCheckedList,
+                            token,
+                            setShowModal,
+                            setAdmission,)}>
+                                반려
+                    </Button>
                 </div>
             </ApplyModalContentsMeta>
             <ApplyModalContentsBody>
@@ -96,7 +76,7 @@ const ApplyModalContents = () => {
                 <div>
                     <h3>지원동기</h3>
                     <p>
-                        지원동기를 말하고 있습니다  지원동기를 말하고 있습니다  지원동기를 말하고 있습니다  지원동기를 말하고 있습니다  지원동기를 말하고 있습니다 
+                        {motive}
                     </p>
                 </div>
             

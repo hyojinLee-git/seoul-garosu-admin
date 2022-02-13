@@ -5,10 +5,8 @@ import {PaginationDiv} from './style'
 import Pagination from 'react-js-pagination'
 import { currentPageState } from '../../../state/currentPageState';
 
-
-const Paging = ({totalItemsCount,itemsCountPerPage,pageRangeDisplayed}) => {
+const Paging = ({totalItemsCount,itemsCountPerPage,pageRangeDisplayed,}) => {
     const [currentPage,setCurrentPage]=useRecoilState(currentPageState)
-
     const onChangePage=(page)=>{
         setCurrentPage(page)
     }

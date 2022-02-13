@@ -13,6 +13,7 @@ import { admissionState } from '../../../state/admissionState';
 import { onSubmitApproval,onSubmitRejection } from '../../../utils/submitFunction';
 import { currentPageState } from '../../../state/currentPageState';
 import { getDatabase,ref,update } from 'firebase/database';
+import { submitState } from '../../../state/education/submitState';
 
 const AdmissionBar = ({onToggleDropDown}) => {
     const [checked,setChecked]=useRecoilState(checkboxState)
@@ -22,10 +23,10 @@ const AdmissionBar = ({onToggleDropDown}) => {
     const [,setShowModal]=useRecoilState(modalState)
     const [,setAdmission]=useRecoilState(admissionState)
     const [currentPage,setCurrentPage]=useRecoilState(currentPageState)
+    const [,setSubmit]=useRecoilState(submitState)
 
     const db=getDatabase()
     const dbURL=process.env.REACT_APP_DATABASE_URL;
-    //이거 컴포넌트 마운트언마운트 시간대 바뀌는지 알아야할듯
 
     
     const onChange=()=>{
@@ -74,18 +75,15 @@ const AdmissionBar = ({onToggleDropDown}) => {
             //approve일때 Trees_taken에 데이터 삭제
             if(checkedListItem.field==='Approve'){
                 axios.delete(`${dbURL}/Trees_taken/${checkedListItem.key}.json?auth=${token}`)
-                .then(res=>console.log(res))
                 .catch(e=>console.log(e))
             }
 
             //Rejections에서 데이터 삭제
             axios.delete(`${dbURL}/Rejections/${checkedListItem.key}.json?auth=${token}`)
-            .then(res=>console.log(res))
             .catch(e=>console.log(e))
 
             //Approve에서 데이터 삭제
             axios.delete(`${dbURL}/Approve/${checkedListItem.key}.json?auth=${token}`)
-            .then(res=>console.log(res))
             .catch(e=>console.log(e))
             
         })
@@ -97,8 +95,7 @@ const AdmissionBar = ({onToggleDropDown}) => {
 
     //새로고침 버튼
     const onRefresh=()=>{
-        //내생각엔 이건 그냥 현재 데이터 새로고침인데
-        window.location.reload()
+        setSubmit(true)
     }
 
     

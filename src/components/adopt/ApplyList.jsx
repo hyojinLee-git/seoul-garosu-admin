@@ -1,50 +1,47 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {ApplyListUl,CheckBox} from './style'
-import { authService } from '../../utils/firebase';
-import {getDatabase,ref,child,get, set} from 'firebase/database'
 import {MdCircle} from 'react-icons/md'
 import { useRecoilState } from 'recoil';
-import { menuState } from '../../state/menuState';
 import { checkboxState } from '../../state/checkboxState';
 import { fetchDataState } from '../../state/fetchDataState';
-import { applyModalState,clickedApplyState } from '../../state/applyModalState';
+import { applyModalState } from '../../state/applyModalState';
 import { checkedListState } from '../../state/checkedListState';
 import axios from 'axios'
 import { tokenState } from '../../state/tokenState';
-import { useLocation, useParams } from 'react-router-dom';
-
+import {  useParams } from 'react-router-dom';
+import { currentPageState } from '../../state/currentPageState';
+import { dateAscending } from '../../utils/sortFunction';
+import { submitState } from '../../state/education/submitState';
 
 const ApplyList = ({currentTab}) => {
     const [dataList,setDataList]=useRecoilState(fetchDataState)
-    const [menu]=useRecoilState(menuState)
-    const [checked,setChecked]=useRecoilState(checkboxState)
-    const [color,setColor]=useState('#DADADA')
+    const [,setChecked]=useRecoilState(checkboxState)
     const[checkedList,setCheckedList]=useRecoilState(checkedListState)
-    const [showApplyModal,setShowApplyModal]=useRecoilState(applyModalState)
-    const [clickedApply,setClickedApply]=useRecoilState(clickedApplyState)
-    
+    const [,setShowApplyModal]=useRecoilState(applyModalState)
+    const [submit,setSubmit]=useRecoilState(submitState)
+    const [token,]=useRecoilState(tokenState)
+    const [currentPage,]=useRecoilState(currentPageState)
+    const [,setCurrentPageData]=useState([])
+    const {sideMenu}=useParams();
     const dbURL=process.env.REACT_APP_DATABASE_URL;
-    const [token,setToken]=useRecoilState(tokenState)
-    const [currentPageData,setCurrentPageData]=useState([])
-    const params=useParams()
-    const location=useLocation()
-    //<해결해야 할 과제>
-    //색깔 대충 설정함
-    //firebase함수 걷어내기
-    //데이터 로딩 캐시처리 하고싶음
 
-    //인증 토큰 세팅
-    const getToken=async ()=>{
-        authService.currentUser.getIdToken()
-        .then(token=>setToken(token))
-        .catch(e=>console.log(e))
-    }
+    //되긴 한데 이렇게 해도 되나?
+    //10개씩 끊어서 나타내기
+    const startIndex=(Number(currentPage)-1)*10
+    const endIndex=(dataList.length-startIndex)%10===0? 
+        Number(currentPage)*10:
+            Math.ceil(dataList.length/10)===Number(currentPage)?
+                dataList.length:startIndex+10
+    const currentData=dataList.slice(startIndex,endIndex)
+
+    currentData.sort(dateAscending)
 
     //모달창 띄우기
     const onClickApplyItem=(e,key)=>{
         if(e.target.tagName==='INPUT') return
+        const clickedData=dataList.filter(el=>el.key===key)
         setShowApplyModal(true)
-        setClickedApply(key)
+        setCheckedList(clickedData)
     }
 
     //input 값 change
@@ -60,89 +57,94 @@ const ApplyList = ({currentTab}) => {
 
     }
 
-    //key값 추가
-    const addObjectKey=(obj)=>{
+    //데이터 전처리
+    const addObjectKey=(obj,field)=>{
         for(let val in obj){
+            //key값 추가
             obj[val]['key']=val   
-        }
-        return obj
-    }
-
-    //field추가
-    const addField=(obj,field)=>{
-        for(let val in obj){
+            //field 추가
             obj[val]['field']=field
         }
         return obj
     }
 
+
+
     //get data from firebase
-    //리팩토링 하자..
+    // 1. 각각의 데이터 가져오기
+    // 2. tab에 따라서 데이터 filter하기
+    // 3. 데이터 하나로 합치기
+    // 4. 데이터 정렬하기
     const fetchData=useCallback(()=>{
-        const dbRef=ref(getDatabase());
         //데이터 초기화
         //setDataList([])
 
-        //dataList는 가져온 전체 데이터(전역), pageData는 현재 페이지 데이터(지역)
-        if(menu==='전체 입양신청'){
-            setColor('DADADA')
-            setCurrentPageData([])
+        if(sideMenu==='all'){
+
             const promise1=axios.get(`${dbURL}/Candidates.json?auth=${token}`)
-            const promise2=axios.get(`${dbURL}/Trees_taken.json?auth=${token}`)
-            Promise.all([promise1,promise2])
+            const promise2=axios.get(`${dbURL}/Approve.json?auth=${token}`)
+            const promise3=axios.get(`${dbURL}/Rejections.json?auth=${token}`)
+            
+            Promise.all([promise1,promise2,promise3])
             .then(res=>{
-                // 1. 각각의 링크에서 데이터 가져오기
-                // 2. tab에 따라서 데이터 filter하기
-                // 3. 데이터 하나로 합치기
-                // 4. 데이터 정렬하기
-                // 5. 데이터 11개씩 끊어서 보여주기(:page로 계산 가져오기)(for문?)
-                const preData1=addField(addObjectKey(res[0].data),'Candidates')
-                const preData2=addField(addObjectKey(res[1].data),'Trees_taken')
+
+                const preData1=addObjectKey(res[0].data,'Candidates')
+                const preData2=addObjectKey(res[1].data,'Approve')
+                const preData3=addObjectKey(res[2].data,'Rejections')
+                
                 const data1=Object.values(preData1).filter((el)=>currentTab===el.unit)
                 const data2=Object.values(preData2).filter((el)=>currentTab===el.unit)
-                setDataList([...data1,...data2])
-                const data=[]
-                //처음 렌더링될때 안되는중ㅠ
-                
-                //0~10
-                //10~20
-                console.log(params,location)
-                const startIndex=(Number(params.page)-1)*10
-                const endIndex=parseInt(dataList.length/10)*10
-                console.log(startIndex,endIndex)
-                for (let i=startIndex;i<endIndex;i++){
-                    data.push(dataList[i])
-                }
-                setCurrentPageData([...data])
-                console.log(currentPageData)
+                const data3=Object.values(preData3).filter((el)=>currentTab===el.unit)
+
+                setDataList([...data1,...data3,...data2])
+
+
             })
             .catch(e=>console.log(e))
 
             
-        } else if (menu==='승인한 입양신청'){
-            //console.log(dataList)
-            get(child(dbRef,`/Trees_taken`))
-            .then(res=>{
-                if(res.exists()){
-                    const preData=addObjectKey(res.val())
-                    const data=Object.values(preData).filter((fetchDataItem)=>currentTab===fetchDataItem.unit)
-                    console.log(data)
-                    setCurrentPageData(data)
-                    setColor('#6AD39F')
-                }
+        } else if (sideMenu==='approval'){
+            
+            axios.get(`${dbURL}/Approve.json?auth=${token}`)
+            .then((res)=>{
+                const preData=addObjectKey(res.data,'Approve')
+                const data=Object.values(preData).filter((fetchDataItem)=>currentTab===fetchDataItem.unit)
+                setDataList(data)
+
             })
-            .catch((error)=>console.log(error))
-        }else if(menu==='반려한 입양신청'){
-            setCurrentPageData([])
+            //setCurrentPageData([])
+            //console.log(dataList)
+            // get(child(dbRef,`/Trees_taken`))
+            // .then(res=>{
+            //     if(res.exists()){
+            //         const preData=addObjectKey(res.val())
+            //         const data=Object.values(preData).filter((fetchDataItem)=>currentTab===fetchDataItem.unit)
+            //         console.log(data)
+            //         setDataList(data)
+            //         setCurrentPageData(data)
+            //         setColor('#6AD39F')
+            //     }
+            // })
+            // .catch((error)=>console.log(error))
+
+        }else if(sideMenu==='rejection'){
+            axios.get(`${dbURL}/Rejections.json?auth=${token}`)
+            .then(res=>{
+                const preData=addObjectKey(res.data,'Rejections')
+                const data=Object.values(preData).filter((fetchDataItem)=>currentTab===fetchDataItem.unit)
+                setDataList([...data])
+                
+            })
+            .catch(e=>console.log(e))
         }
-        else if (menu==='대기중인 입양신청'){
+        else if (sideMenu==='waiting'){
             axios.get(`${dbURL}/Candidates.json?auth=${token}`)
             .then(res=>{
-                const preData=addObjectKey(res.data)
+                const preData=addObjectKey(res.data,'Candidates')
                 const data=Object.values(preData).filter((fetchDataItem)=>currentTab===fetchDataItem.unit)
-                setCurrentPageData(data)
-                //console.log(res.data)
-                setColor('#DADADA')
+                setDataList([...data])
+
+                
             })
             .catch(e=>console.log(e))
 
@@ -150,27 +152,30 @@ const ApplyList = ({currentTab}) => {
         } else{
             setCurrentPageData([])
         }
-    },[currentTab, dbURL, menu, setDataList, token,params])
+
+    },[sideMenu, dbURL, token, setDataList, currentTab])
 
     //fetching data when component mounted
-    useEffect( ()=>{
-        setChecked(false)
+    useEffect(()=>{
+        //초기화
+        setDataList([])
+        //fetch
         fetchData()
+        setSubmit(false)
         return()=>{
             setChecked(false)
+            setCheckedList([])
+            setDataList([])
         }
-    },[fetchData, setChecked])
+    },[fetchData, setChecked, setCheckedList, setDataList, setSubmit, submit])
+    
 
-
-    useEffect(()=>{
-        getToken()
-    },[])
 
     return (
 
             <ApplyListUl>
                 {
-                    currentPageData?.map((applyItem)=>(
+                    currentData?.map((applyItem)=>(
                        <li 
                         key={applyItem.key} 
                         onClick={(e)=>onClickApplyItem(e,applyItem.key)}
@@ -181,11 +186,15 @@ const ApplyList = ({currentTab}) => {
                                 onChange={(e)=>onChange(e.target.checked,applyItem.key)}
                             />
                            <span>
-                               <MdCircle size={24} color={applyItem.field==='Trees_taken'?'#6AD39F':color}/>
+                               <MdCircle 
+                                size={24} 
+                                color={applyItem.field==='Approve'?'#6AD39F':
+                                    applyItem.field==='Candidates'?'#DADADA':'#FFBEB4'
+                                }/>
                             </span>
                            <span>{applyItem.name}</span>
                            <span>{applyItem.location}</span>
-                           <span>{applyItem.tree_location}</span>
+                           <span>{applyItem.tree_id}</span>
                            <span>{applyItem.tree_type}</span>
                            <span>{applyItem.date}</span>
                        </li>

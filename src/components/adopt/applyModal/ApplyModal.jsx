@@ -5,7 +5,7 @@ import { applyModalState} from '../../../state/applyModalState'
 import { useRecoilState } from 'recoil';
 
 const ApplyModal = () => {
-    const [showApplyModal,setShowApplyModal]=useRecoilState(applyModalState)
+    const [,setShowApplyModal]=useRecoilState(applyModalState)
 
 
     const onCloseApplyModal=(e)=>{
