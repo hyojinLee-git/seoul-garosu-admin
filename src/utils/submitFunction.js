@@ -58,7 +58,6 @@ export const onSubmitApproval = (
     // //Candidates에서 데이터 삭제
     axios
       .delete(`${dbURL}/Candidates/${checkedListItem.key}.json?auth=${token}`)
-      .then(res => console.log(res))
       .catch(e => console.log(e));
   });
 
@@ -106,13 +105,11 @@ export const onSubmitRejection = (
     //Candidates에서 데이터 삭제
     axios
       .delete(`${dbURL}/Candidates/${checkedListItem.key}.json?auth=${token}`)
-      .then(res => console.log(res))
       .catch(e => console.log(e));
 
     //Trees_taken에서 데이터 삭제
     axios
       .delete(`${dbURL}/Approve/${checkedListItem.key}.json?auth=${token}`)
-      .then(res => console.log(res))
       .catch(e => console.log(e));
   });
 
