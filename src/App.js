@@ -2,7 +2,7 @@ import './App.css';
 import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Main from './pages/Main';
-import Login from './pages/login/Login';
+import Login from './pages/Login/Login';
 import { useRecoilState } from 'recoil';
 import { loginState } from './state/login/loginState';
 
