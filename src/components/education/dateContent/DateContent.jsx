@@ -35,7 +35,7 @@ const DateContent = ({currentCategory}) => {
     }
 
     const onModify=()=>{
-        console.log('수정수정')
+        console.log('수정')
     }
 
     const onDelete=(e)=>{
