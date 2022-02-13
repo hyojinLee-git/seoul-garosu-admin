@@ -75,9 +75,10 @@ const Login = () => {
         }
 
     }
-    if(login){
-        return <Navigate replace to={`/${cookies.url}`}/>
-    }
+    if (cookies.url && login) {
+        return <Navigate replace to={`/${cookies.url}`} />;
+      }
+
     return (
         <div>
             <LogoDiv>
