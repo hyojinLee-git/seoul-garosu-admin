@@ -24,7 +24,6 @@ const SideMenu = () => {
     
     //route 설정, route에 따라 menuList 바뀌어서 반환
     useEffect(()=>{
-        console.log(mainMenu)
         //refactoring 필요
         setMenuList(setMenuListFunction(mainMenu))
 

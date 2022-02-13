@@ -5,7 +5,6 @@ import {MenuLi, MenuUl} from './style'
 const Menu = () => {
     const location=useLocation()
 
-
     const menuList=[
         {
             title:'홈',

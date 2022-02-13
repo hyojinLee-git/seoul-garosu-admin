@@ -12,7 +12,7 @@ const AsideMenu = () => {
     const onLogout=()=>{
         try{
             signOut(authService)
-            setLogin('')
+            setLogin(false)
             console.log('logout')
         }catch(e){
             console.log(e)
