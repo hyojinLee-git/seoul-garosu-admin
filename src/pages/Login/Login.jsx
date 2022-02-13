@@ -1,4 +1,4 @@
-import React, {  useState } from 'react';
+import React, {   useState } from 'react';
 import {Input,Button,Label,Form,LogoDiv,MetaData,Error} from './style'
 import LogoImg from '../../assets/logo.png'
 import { authService } from '../../utils/firebase';
@@ -36,11 +36,6 @@ const Login = () => {
             console.log(e)
         }
     }
-
-    //중복 로그인 방지
-    // if(authService.currentUser){
-    //     return <Navigate replace to="/main"/>
-    // }
 
     //submit function
     const onSubmit= async (e)=>{
