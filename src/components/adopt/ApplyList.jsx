@@ -81,11 +81,11 @@ const ApplyList = ({currentTab}) => {
 
         if(sideMenu==='all'){
 
-            const promise1=axios.get(`${dbURL}/Candidates.json?auth=${token}`)
-            const promise2=axios.get(`${dbURL}/Approve.json?auth=${token}`)
-            const promise3=axios.get(`${dbURL}/Rejections.json?auth=${token}`)
+            const fetchCandidates=axios.get(`${dbURL}/Candidates.json?auth=${token}`)
+            const fetchApprove=axios.get(`${dbURL}/Approve.json?auth=${token}`)
+            const fetchRejections=axios.get(`${dbURL}/Rejections.json?auth=${token}`)
             
-            Promise.all([promise1,promise2,promise3])
+            Promise.all([fetchCandidates,fetchApprove,fetchRejections])
             .then(res=>{
 
                 const preData1=addObjectKey(res[0].data,'Candidates')

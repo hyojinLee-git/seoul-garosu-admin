@@ -45,7 +45,6 @@ const Main = () => {
 
     return (
         <>
-
             <GlobalNavigationBar />
             <div style={{ display: 'flex' }}>
                 <Routes>
